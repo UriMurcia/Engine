@@ -45,12 +45,18 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
 
-
 	return true;
 }
 
 update_status ModuleRender::PreUpdate()
 {
+	int w;
+	int h;
+	SDL_GetWindowSize(App->window->window, &w, &h);
+	glViewport(0, 0, w, h);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -63,6 +69,7 @@ update_status ModuleRender::Update()
 
 update_status ModuleRender::PostUpdate()
 {
+	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
 
@@ -70,7 +77,7 @@ update_status ModuleRender::PostUpdate()
 bool ModuleRender::CleanUp()
 {
 	LOG("Destroying renderer");
-
+	SDL_GL_DeleteContext(context);
 	//Destroy window
 
 	return true;
