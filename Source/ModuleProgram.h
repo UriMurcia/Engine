@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include <glew.h>
 
 typedef unsigned __int8 Uint8;
 
@@ -11,11 +12,9 @@ public:
 	ModuleProgram();
 	~ModuleProgram();
 
-	void CreateProgram(const char* shader_file_name);
+	void CreateProgram(const char* vertexShaderString, const char* fragmentShaderString);
 
-	bool Init();
-	update_status Update();
-	bool CleanUp();
+	
 
-private:
+
 };
