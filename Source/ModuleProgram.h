@@ -13,7 +13,7 @@ public:
 	~ModuleProgram();
 
 	void CreateProgram(const char* vertexShaderString, const char* fragmentShaderString);
-
+	GLuint createShader(const char* shaderString, int shaderType);
 	
 
 

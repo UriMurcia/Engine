@@ -13,7 +13,10 @@ ModuleProgram::ModuleProgram()
 ModuleProgram::~ModuleProgram()
 {}
 
-GLuint createShader(const char* shaderString, int shaderType, int success, char* infoLog) {
+GLuint createShader(const char* shaderString, int shaderType) {
+	int success;
+	char infoLog[512];
+
 	GLuint shader = glCreateShader(shaderType);
 	glShaderSource(shader, 1, &shaderString, NULL);
 	glCompileShader(shader);
@@ -32,10 +35,8 @@ GLuint createShader(const char* shaderString, int shaderType, int success, char*
 
 void CreateProgram(const char* vertexShaderString, const char* fragmentShaderString) {
 
-	int success;
-	char infoLog[512];
-	GLuint vertexShader = createShader(vertexShaderString, GL_VERTEX_SHADER, success, infoLog);
-	GLuint fragmentShader = createShader(fragmentShaderString, GL_FRAGMENT_SHADER, success, infoLog);
+	GLuint vertexShader = createShader(vertexShaderString, GL_VERTEX_SHADER);
+	GLuint fragmentShader = createShader(fragmentShaderString, GL_FRAGMENT_SHADER);
 
 
 	GLuint shaderProgram = glCreateProgram();
@@ -43,6 +44,8 @@ void CreateProgram(const char* vertexShaderString, const char* fragmentShaderStr
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
 
+	int success;
+	char infoLog[512];
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);

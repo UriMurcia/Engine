@@ -5,6 +5,8 @@
 
 typedef unsigned __int8 Uint8;
 
+class ModuleProgram;
+
 class ModuleRenderExercise : public Module
 {
 public:
@@ -12,4 +14,9 @@ public:
 	ModuleRenderExercise();
 	~ModuleRenderExercise();
 
-}
+	bool Init();
+	update_status Update();
+	bool CleanUp();
+
+	
+};
