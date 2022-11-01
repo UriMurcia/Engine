@@ -2,7 +2,6 @@
 #include "Module.h"
 #include "Globals.h"
 #include <glew.h>
-
 typedef unsigned __int8 Uint8;
 
 class ModuleProgram : public Module

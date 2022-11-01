@@ -11,7 +11,7 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {}
 
 bool ModuleRenderExercise::Init() {
-    /*const char* vertexShaderSource = "#version 330 core\n"
+    const char* vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"
         "void main()\n"
         "{\n"
@@ -22,10 +22,10 @@ bool ModuleRenderExercise::Init() {
         "void main()\n"
         "{\n"
         "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0";*/
+        "}\n\0";
 
-	//program = new ModuleProgram();
-	//program.CreateProgram(vertexShaderSource, fragmentShaderSource);
+	this->program = new ModuleProgram();
+	this->program->CreateProgram(vertexShaderSource, fragmentShaderSource);
 
     return true;
 }

@@ -18,5 +18,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	ModuleProgram* program = nullptr;
+
 	
 };

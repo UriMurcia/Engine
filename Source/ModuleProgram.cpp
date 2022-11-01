@@ -1,8 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleRender.h"
-#include "SDL/include/SDL.h"
 
 #include <iostream>
 
@@ -13,7 +11,7 @@ ModuleProgram::ModuleProgram()
 ModuleProgram::~ModuleProgram()
 {}
 
-GLuint createShader(const char* shaderString, int shaderType) {
+GLuint ModuleProgram::createShader(const char* shaderString, int shaderType) {
 	int success;
 	char infoLog[512];
 
@@ -33,7 +31,7 @@ GLuint createShader(const char* shaderString, int shaderType) {
 
 }
 
-void CreateProgram(const char* vertexShaderString, const char* fragmentShaderString) {
+void ModuleProgram::CreateProgram(const char* vertexShaderString, const char* fragmentShaderString) {
 
 	GLuint vertexShader = createShader(vertexShaderString, GL_VERTEX_SHADER);
 	GLuint fragmentShader = createShader(fragmentShaderString, GL_FRAGMENT_SHADER);
@@ -53,4 +51,31 @@ void CreateProgram(const char* vertexShaderString, const char* fragmentShaderStr
 	}
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f, // left  
+		 0.5f, -0.5f, 0.0f, // right 
+		 0.0f,  0.5f, 0.0f  // top   
+	};
+
+	GLuint VBO, VAO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindVertexArray(0);
+
+	
+
+
+	
 }
