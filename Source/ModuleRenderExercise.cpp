@@ -50,9 +50,3 @@ update_status ModuleRenderExercise::Update() {
 
     return UPDATE_CONTINUE;
 }
-
-
-bool ModuleRenderExercise::CleanUp() {
-
-    return true;
-}

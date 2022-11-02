@@ -16,7 +16,6 @@ public:
 
 	bool Init();
 	update_status Update();
-	bool CleanUp();
 
 	ModuleProgram* moduleProgram = nullptr;
 	GLuint VBO;
