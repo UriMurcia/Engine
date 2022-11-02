@@ -1,17 +1,20 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleProgram.h"
+#include "ModuleWindow.h"
 
+#include <fstream>
 #include <iostream>
 
 ModuleProgram::ModuleProgram()
-{}
+{
+}
 
 // Destructor
 ModuleProgram::~ModuleProgram()
 {}
 
-GLuint ModuleProgram::createShader(const char* shaderString, int shaderType) {
+GLuint ModuleProgram::CreateShader(const char* shaderString, int shaderType) {
 	int success;
 	char infoLog[512];
 
@@ -31,12 +34,11 @@ GLuint ModuleProgram::createShader(const char* shaderString, int shaderType) {
 
 }
 
-void ModuleProgram::CreateProgram(const char* vertexShaderString, const char* fragmentShaderString) {
+GLuint ModuleProgram::CreateProgram(const char* vertexShaderString, const char* fragmentShaderString) {
 
-	GLuint vertexShader = createShader(vertexShaderString, GL_VERTEX_SHADER);
-	GLuint fragmentShader = createShader(fragmentShaderString, GL_FRAGMENT_SHADER);
-
-
+	GLuint vertexShader = CreateShader(vertexShaderString, GL_VERTEX_SHADER);
+	GLuint fragmentShader = CreateShader(fragmentShaderString, GL_FRAGMENT_SHADER);
+	
 	GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
@@ -52,30 +54,28 @@ void ModuleProgram::CreateProgram(const char* vertexShaderString, const char* fr
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // left  
-		 0.5f, -0.5f, 0.0f, // right 
-		 0.0f,  0.5f, 0.0f  // top   
-	};
 
-	GLuint VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-
-	
+	return shaderProgram;
+}
 
 
-	
+std::string ModuleProgram::ReadFile(std::string path) {
+
+	std::string fileContent;
+	std::ifstream fileStream(path, std::ios::in);
+
+	if (!fileStream.is_open()) {
+		std::cerr << "Could not read file " << path << ". File does not exist." << std::endl;
+		return "";
+	}
+
+	std::string line = "";
+	while (!fileStream.eof()) {
+		std::getline(fileStream, line);
+		fileContent.append(line + "\n");
+	}
+
+	fileStream.close();
+
+	return fileContent;
 }

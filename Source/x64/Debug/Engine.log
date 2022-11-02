@@ -1,5 +1,5 @@
 ﻿  ModuleProgram.cpp
   ModuleRenderExercise.cpp
-  Generando código...
-D:\Master\cplusplus\Engine\Source\ModuleProgram.cpp(32): warning C4715: 'ModuleProgram::createShader': no todas las rutas de acceso de control devuelven un valor
-  Engine.vcxproj -> D:\Master\cplusplus\Engine\Source\x64\Debug\Engine.exe
+  Generating Code...
+F:\Master\Programacio c plusplus\Engine\Source\ModuleProgram.cpp(35): warning C4715: 'ModuleProgram::CreateShader': not all control paths return a value
+  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

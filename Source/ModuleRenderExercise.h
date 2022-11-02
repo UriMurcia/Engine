@@ -18,7 +18,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	ModuleProgram* program = nullptr;
-
+	ModuleProgram* moduleProgram = nullptr;
+	GLuint VBO;
+	GLuint shaderProgram;
 	
 };

@@ -27,6 +27,7 @@ public:
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleEditor* editor = nullptr;
+	ModuleRenderExercise* exercise = nullptr;
 
 private:
 
