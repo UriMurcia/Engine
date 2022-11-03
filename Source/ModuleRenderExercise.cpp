@@ -16,6 +16,7 @@ ModuleRenderExercise::~ModuleRenderExercise()
 }
 
 bool ModuleRenderExercise::Init() {
+
     this->moduleProgram = new ModuleProgram();
 
     float vertices[] = {

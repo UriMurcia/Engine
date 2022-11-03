@@ -17,7 +17,7 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
-	LOG("Creating Renderer context");
+	LOG_ENGINE("Creating Renderer context");
 
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4); // desired version
@@ -33,12 +33,12 @@ bool ModuleRender::Init()
 
 	GLenum err = glewInit();
 	// … check for errors
-	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	LOG_ENGINE("Using Glew %s", glewGetString(GLEW_VERSION));
 	// Should be 2.0
-	LOG("Vendor: %s", glGetString(GL_VENDOR));
-	LOG("Renderer: %s", glGetString(GL_RENDERER));
-	LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	LOG_ENGINE("Vendor: %s", glGetString(GL_VENDOR));
+	LOG_ENGINE("Renderer: %s", glGetString(GL_RENDERER));
+	LOG_ENGINE("OpenGL version supported %s", glGetString(GL_VERSION));
+	LOG_ENGINE("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	glEnable(GL_DEPTH_TEST); // Enable depth test
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
@@ -76,7 +76,7 @@ update_status ModuleRender::PostUpdate()
 // Called before quitting
 bool ModuleRender::CleanUp()
 {
-	LOG("Destroying renderer");
+	LOG_ENGINE("Destroying renderer");
 	SDL_GL_DeleteContext(context);
 	//Destroy window
 
