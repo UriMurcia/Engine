@@ -54,7 +54,6 @@ GLuint ModuleProgram::CreateProgram(const char* vertexShaderString, const char* 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-
 	return shaderProgram;
 }
 
