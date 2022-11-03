@@ -14,8 +14,8 @@ Application::Application()
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(input = new ModuleInput());
-	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(exercise = new ModuleRenderExercise());
+	modules.push_back(editor = new ModuleEditor());
 }
 
 Application::~Application()

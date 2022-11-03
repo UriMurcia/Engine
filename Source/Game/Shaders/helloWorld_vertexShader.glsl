@@ -1,14 +1,6 @@
-#version 330
- 
-layout (std140) uniform Matrices {
-    mat4 pvm;
-} ;
- 
-in vec4 position;
- 
-out vec4 color;
- 
+#version 440
+layout(location=0) in vec3 my_vertex_position;
 void main()
 {
-    gl_Position = pvm * position ;
-} 
+ gl_Position = vec4(my_vertex_position, 1.0); 
+}

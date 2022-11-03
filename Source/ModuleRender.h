@@ -18,8 +18,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
-	inline void* getContext() { return this->context; }
+	//inline void* getContext() { return this->context; }
 
-private:
+
 	void* context;
 };

@@ -1,11 +1,11 @@
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleWindow.h"
+#include "ModuleRender.h"
 
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <SDL_opengles2.h>
-#else
-#include <SDL_opengl.h>
-#endif
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
 
 
 ModuleEditor::ModuleEditor()
@@ -18,20 +18,17 @@ ModuleEditor::~ModuleEditor()
 bool ModuleEditor::Init() {
     ImGui::CreateContext();
 
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
-    ImGui::StyleColorsDark();
 
-
-    ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->getContext());
+    ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
     ImGui_ImplOpenGL3_Init("#version 130");
 
 
-    
     return true;
 }
 
@@ -45,7 +42,7 @@ update_status ModuleEditor::PreUpdate() {
 update_status ModuleEditor::Update() {
 
     //FICAR AL MODULE INPUT
-    SDL_Event event;
+    /*SDL_Event event;
     while (SDL_PollEvent(&event))
     {
         ImGui_ImplSDL2_ProcessEvent(&event);
@@ -53,18 +50,17 @@ update_status ModuleEditor::Update() {
             return UPDATE_STOP;
         if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(App->window->window))
             return UPDATE_STOP;
-    }
+    }*/
 
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(App->window->window);
-    //ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
 
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-    {
+    ImGui::ShowDemoWindow(&show_demo_window);
+    
+     /* {
         static float f = 0.0f;
         static int counter = 0;
 
@@ -84,15 +80,14 @@ update_status ModuleEditor::Update() {
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
-    }
+    }*/
 
     ImGui::Render();
-    ImGui::UpdatePlatformWindows();
-    //glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    //SDL_GL_SwapWindow(App->window->window);
+
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
+    SDL_GL_MakeCurrent(App->window->window, App->renderer->context);
 
 
     return UPDATE_CONTINUE;
