@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -312,6 +312,7 @@
   <ItemGroup>
     <None Include="Game\helloWorld_vertexShader.glsl" />
     <None Include="Game\Shaders\helloWorld_fragmentShader.glsl" />
+    <None Include="Game\Shaders\helloWorld_vertexShader.glsl" />
     <None Include="MathGeoLib_Source\Geometry\KDTree.inl" />
     <None Include="MathGeoLib_Source\Geometry\QuadTree.inl" />
     <None Include="MathGeoLib_Source\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
