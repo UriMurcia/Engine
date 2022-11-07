@@ -66,19 +66,20 @@ update_status ModuleRenderExercise::Update() {
     Frustum frustum;
     //type is private?
     //frustum.type = FrustumType::PerspectiveFrustum;
+    frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumLeftHanded);
     frustum.SetPos(float3::zero);
     frustum.SetFront(-float3::unitZ);
     frustum.SetUp(float3::unitY);
     frustum.SetViewPlaneDistances(0.1f, 100.0f);
     frustum.SetVerticalFovAndAspectRatio(math::pi / 4.0f, 1.0f);
-    frustum.SetHorizontalFovAndAspectRatio(2.f * atanf(tanf(90.0f * 0.5f) * 1.0f), 1.0f);
+    //frustum.SetHorizontalFovAndAspectRatio(2.f * Atan(Tan(frustum.VerticalFov() * 0.5f) * 1.0f), 1.0f);
     projection = frustum.ProjectionMatrix();
 
 
-    //view = LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY);
+    view = LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY);
     
 
-    view.LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY, float3::unitY);
+    //view.LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY, float3::unitY);
 
     glUniformMatrix4fv(0, 1, GL_TRUE, &model[0][0]);
     glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
