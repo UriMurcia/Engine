@@ -17,6 +17,7 @@ public:
 
 	bool Init();
 	update_status Update();
+	float4x4 LookAt(float3 eye, float3 target, float3 upVector);
 
 	ModuleProgram* moduleProgram = nullptr;
 	GLuint VBO;
