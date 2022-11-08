@@ -21,5 +21,5 @@ public:
 	//inline void* getContext() { return this->context; }
 
 
-	void* context;
+	void* context = nullptr;
 };

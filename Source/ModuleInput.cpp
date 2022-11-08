@@ -4,6 +4,7 @@
 #include "ModuleRender.h"
 #include "SDL/include/SDL.h"
 #include <imgui_impl_sdl.h>
+#include "ModuleCameraEditor.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -49,6 +50,34 @@ update_status ModuleInput::Update()
 
 
     keyboard = SDL_GetKeyboardState(NULL);
+
+	const Uint8* state = SDL_GetKeyboardState(NULL);
+	if (state[SDL_SCANCODE_ESCAPE]) {
+		return UPDATE_STOP;
+	}
+
+	if (state[SDL_SCANCODE_W]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, 0, 0.1f));
+	}
+	if (state[SDL_SCANCODE_S]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, 0, 0.1f));
+	}
+	if (state[SDL_SCANCODE_A]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0.1f, 0, 0));
+	}
+	if (state[SDL_SCANCODE_D]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0.1f, 0, 0));
+	}
+	if (state[SDL_SCANCODE_Q]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, 0.1f, 0));
+	}
+	if (state[SDL_SCANCODE_E]) {
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, 0.1f, 0));
+	}
+
+	if (state[SDL_SCANCODE_LEFT]) {
+
+	}
 
     return UPDATE_CONTINUE;
 }

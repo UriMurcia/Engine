@@ -6,8 +6,6 @@
 #include "float4x4.h"
 
 
-typedef unsigned __int8 Uint8;
-
 class ModuleProgram;
 
 class ModuleRenderExercise : public Module
@@ -19,7 +17,6 @@ public:
 
 	bool Init();
 	update_status Update();
-	float4x4 LookAt(float3 eye, float3 target, float3 upVector);
 
 	ModuleProgram* moduleProgram = nullptr;
 	GLuint VBO;

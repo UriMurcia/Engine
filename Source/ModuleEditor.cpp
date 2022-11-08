@@ -46,7 +46,7 @@ update_status ModuleEditor::Update() {
     ImGui::NewFrame();
 
 
-    //ImGui::ShowDemoWindow(&show_demo_window);
+    ImGui::ShowDemoWindow(&show_demo_window);
     
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
