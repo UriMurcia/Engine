@@ -2,8 +2,7 @@
 #include "Application.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
-#include "Frustum.h"
-#include "MathGeoLib.h"
+#include "float3x3.h"
 #include "ModuleCameraEditor.h"
 
 #include <vector>

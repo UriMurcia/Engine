@@ -1,11 +1,8 @@
 #include "ModuleCameraEditor.h"
-#include "Frustum.h"
-#include "SDL.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleDebugDraw.h"
 #include "debugdraw.h"
-#include "float3x3.h"
 
 ModuleCameraEditor::ModuleCameraEditor()
 {}
