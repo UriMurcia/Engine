@@ -53,7 +53,7 @@ update_status ModuleRenderExercise::Update() {
 
 
     //App->cameraEditor->Rotate(float3x3(1.0f, 0.0f, 0.0f,     0.0f, Cos(0.01f), -Sin(0.01f),     0.0f, Sin(0.01f), Cos(0.01f)));
-    App->cameraEditor->Rotate(float3x3(Cos(0.01f), 0.0f, Sin(0.01f),     0.0f, 1.0f, 0.0f,     -Sin(0.01f), 0.0f, Cos(0.01f)));
+    //App->cameraEditor->Rotate(float3x3(Cos(0.01f), 0.0f, Sin(0.01f),     0.0f, 1.0f, 0.0f,     -Sin(0.01f), 0.0f, Cos(0.01f)));
     //App->cameraEditor->Rotate(float3x3(Cos(0.01f), -Sin(0.01f), 0.0f,     Sin(0.01f), Cos(0.01f), 0.0f,     0.0f, 0.0f, 1.0f));
 
     projection = App->cameraEditor->GetProjectionMatrix();

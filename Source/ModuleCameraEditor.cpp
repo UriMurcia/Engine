@@ -57,18 +57,11 @@ void ModuleCameraEditor::SetPos(float3 pos) {
     frustum.SetPos(pos);
 }
 
-
-
-//camera horizontal rotate: y world
-//camera vertical rotate: y camera
-
-//Needs to be fixed
 void ModuleCameraEditor::SetOrientation(float3x3 up) {
     vec oldUp = frustum.Up().Normalized();
     frustum.SetUp(up.MulDir(oldUp));
 }
 
-//Needs to be fixed
 void ModuleCameraEditor::LookAt(float3x3 front) {
     vec oldFront = frustum.Front().Normalized();
     frustum.SetFront(front.MulDir(oldFront)); //.MultDir(oldFront);
@@ -80,8 +73,6 @@ void ModuleCameraEditor::Rotate(float3x3 rotation) {
     frustum.SetUp(rotation.MulDir(oldUp));
     frustum.SetFront(rotation.MulDir(oldFront)); //.MultDir(oldFront);
 }
-
-
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {
     return frustum.ProjectionMatrix();

@@ -50,6 +50,7 @@ update_status ModuleInput::Update()
 
 
     keyboard = SDL_GetKeyboardState(NULL);
+	SDL_Event event;
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE]) {
@@ -57,16 +58,16 @@ update_status ModuleInput::Update()
 	}
 
 	if (state[SDL_SCANCODE_W]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, 0, 0.1f));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * 0.2f);
 	}
 	if (state[SDL_SCANCODE_S]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, 0, 0.1f));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.Front().Normalized() * 0.2f);
 	}
 	if (state[SDL_SCANCODE_A]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0.1f, 0, 0));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.WorldRight().Normalized() * 0.2f);
 	}
 	if (state[SDL_SCANCODE_D]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0.1f, 0, 0));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.WorldRight().Normalized() * 0.2f);
 	}
 	if (state[SDL_SCANCODE_Q]) {
 		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, 0.1f, 0));
@@ -74,10 +75,28 @@ update_status ModuleInput::Update()
 	if (state[SDL_SCANCODE_E]) {
 		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, 0.1f, 0));
 	}
-
-	if (state[SDL_SCANCODE_LEFT]) {
-
+	if (state[SDL_SCANCODE_UP]) {
+		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), 0.05f));
 	}
+	if (state[SDL_SCANCODE_DOWN]) {
+		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), -0.05f));
+	}
+	if (state[SDL_SCANCODE_LEFT]) {
+		App->cameraEditor->Rotate(float3x3(Cos(0.05f), 0.0f, Sin(0.05f), 0.0f, 1.0f, 0.0f, -Sin(0.05f), 0.0f, Cos(0.05f)));
+	}
+	if (state[SDL_SCANCODE_RIGHT]) {
+		App->cameraEditor->Rotate(float3x3(Cos(-0.05f), 0.0f, Sin(-0.05f), 0.0f, 1.0f, 0.0f, -Sin(-0.05f), 0.0f, Cos(-0.05f)));
+	}
+	if (SDL_PollEvent(&event) != 0){
+		if (event.type == SDL_MOUSEMOTION && event.motion.state & SDL_BUTTON_RMASK) {
+			float rotateAmount = 0.05f * (pi / 180);
+			App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), event.motion.y * rotateAmount));
+			App->cameraEditor->Rotate(float3x3(Cos(event.motion.x * rotateAmount), 0.0f, Sin(event.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(event.motion.x * rotateAmount), 0.0f, Cos(event.motion.x * rotateAmount)));
+			
+		}
+	}
+
+	
 
     return UPDATE_CONTINUE;
 }
