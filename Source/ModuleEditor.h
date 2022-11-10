@@ -15,6 +15,7 @@ public:
 	update_status PreUpdate();
 	update_status PostUpdate();
 	bool CleanUp();
+	void ShowAboutWindow();
 
 	
 	bool show_demo_window = true;

@@ -7,6 +7,7 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
+#include <string>
 
 ModuleEditor::ModuleEditor()
 {
@@ -47,6 +48,8 @@ update_status ModuleEditor::Update() {
 
 
     ImGui::ShowDemoWindow(&show_demo_window);
+
+    ShowAboutWindow();
     
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -55,7 +58,7 @@ update_status ModuleEditor::Update() {
     ImGui::RenderPlatformWindowsDefault();
     SDL_GL_MakeCurrent(App->window->window, App->renderer->context);
 
-
+    
     return UPDATE_CONTINUE;
 }
 
@@ -70,4 +73,33 @@ bool ModuleEditor::CleanUp() {
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
     return true;
+}
+
+
+
+void ModuleEditor::ShowAboutWindow() {
+    bool enabled;
+
+    std::string windowName = std::string("About");
+    ImVec4 colorWhite = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Creative Engine");
+        ImGui::Separator();
+        ImGui::Text("This engine has been developed for the UPC Master in Advanced Programming for AAA Videogames");
+        ImGui::Text("Author: Oriol Murcia Catalan");
+
+        ImGui::Separator();
+
+        ImVec2 sizeLibraries = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 4);
+        ImGui::BeginChildFrame(ImGui::GetID("cfg_infos"), sizeLibraries);
+        ImGui::Text("Library 1: ");
+        ImGui::Text("Library 2: ");
+        ImGui::EndChildFrame();
+
+        ImGui::Separator();
+
+        ImGui::Text("Engine License: UriM");
+
+    }
+    ImGui::End();
 }

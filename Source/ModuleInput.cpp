@@ -56,6 +56,7 @@ update_status ModuleInput::Update()
 	if (state[SDL_SCANCODE_ESCAPE]) {
 		return UPDATE_STOP;
 	}
+	
 
 	if (state[SDL_SCANCODE_W]) {
 		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * 0.2f);
