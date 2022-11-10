@@ -59,7 +59,7 @@ update_status ModuleRenderExercise::Update() {
     projection = App->cameraEditor->GetProjectionMatrix();
     view = App->cameraEditor->GetViewMatrix();
 
-    glUniformMatrix4fv(2, 1, GL_TRUE, &model[0][0]);//GlTrue to transpose matrices due we are not using OpenGl (we use mathgeolib)
+    glUniformMatrix4fv(2, 1, GL_TRUE, &model[0][0]);//GlTrue to transpose matrices due we are not using OpenGl (using mathgeolib)
     glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
     glUniformMatrix4fv(0, 1, GL_TRUE, &projection[0][0]);
 

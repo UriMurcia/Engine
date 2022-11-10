@@ -45,12 +45,16 @@ update_status ModuleInput::Update()
                 if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                     App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
+			case SDL_MOUSEBUTTONDOWN:
+				if(sdlEvent.button.button == SDL_BUTTON_RIGHT){
+					float rotateAmount = 0.05f * (pi / 180);
+					App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), sdlEvent.motion.y * rotateAmount));
+					App->cameraEditor->Rotate(float3x3(Cos(sdlEvent.motion.x * rotateAmount), 0.0f, Sin(sdlEvent.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(sdlEvent.motion.x * rotateAmount), 0.0f, Cos(sdlEvent.motion.x * rotateAmount)));
+				}
+				break;
         }
     }
 
-
-    keyboard = SDL_GetKeyboardState(NULL);
-	SDL_Event event;
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE]) {
@@ -88,6 +92,20 @@ update_status ModuleInput::Update()
 	if (state[SDL_SCANCODE_RIGHT]) {
 		App->cameraEditor->Rotate(float3x3(Cos(-0.05f), 0.0f, Sin(-0.05f), 0.0f, 1.0f, 0.0f, -Sin(-0.05f), 0.0f, Cos(-0.05f)));
 	}
+
+	/*SDL_Event event;
+	SDL_PollEvent(&event); //canviar pel correcte, no el waitevent
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+	{
+		switch (event.button.button)
+		{
+		case SDL_BUTTON_RIGHT:
+			float rotateAmount = 0.05f * (pi / 180);
+			App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), event.motion.y * rotateAmount));
+			App->cameraEditor->Rotate(float3x3(Cos(event.motion.x * rotateAmount), 0.0f, Sin(event.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(event.motion.x * rotateAmount), 0.0f, Cos(event.motion.x * rotateAmount)));
+		}
+	}
+	
 	if (SDL_PollEvent(&event) != 0){
 		if (event.type == SDL_MOUSEMOTION && event.motion.state & SDL_BUTTON_RMASK) {
 			float rotateAmount = 0.05f * (pi / 180);
@@ -95,7 +113,7 @@ update_status ModuleInput::Update()
 			App->cameraEditor->Rotate(float3x3(Cos(event.motion.x * rotateAmount), 0.0f, Sin(event.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(event.motion.x * rotateAmount), 0.0f, Cos(event.motion.x * rotateAmount)));
 			
 		}
-	}
+	}*/
 
 	
 

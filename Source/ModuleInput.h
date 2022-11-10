@@ -15,7 +15,4 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-private:
-	const Uint8 *keyboard = NULL;
-	const Uint8 *mouse = NULL;
 };
