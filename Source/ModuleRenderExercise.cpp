@@ -21,23 +21,31 @@ ModuleRenderExercise::~ModuleRenderExercise()
 bool ModuleRenderExercise::Init() {
     this->moduleProgram = new ModuleProgram();
 
-    float vertices[] = {
+    /*float vertices[] = {
         -1.0f, -1.0f, 0.0f,
          1.0f, -1.0f, 0.0f,
          0.0f,  1.0f, 0.0f
+    };*/
+    float vertices[] = {
+         -1.0f, -1.0f, 0.0f, // v0 pos
+         1.0f, -1.0f, 0.0f, // v1 pos
+         0.0f, 1.0f, 0.0f, // v2 pos
+
+         0.0f, 0.0f, // v0 texcoord
+         1.0f, 0.0f, // v1 texcoord
+         0.5f, 1.0f // v2 texcoord
     };
+
 
     glGenBuffers(1, &VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-
     std::string vertexShaderSource = this->moduleProgram->ReadFile("Shaders/helloWorld_vertexShader.glsl");
     std::string fragmentShaderSource = this->moduleProgram->ReadFile("Shaders/helloWorld_fragmentShader.glsl");
 
 	shaderProgram = this->moduleProgram->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
-
 
     model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
         float4x4::RotateZ(pi / 4.0f),
@@ -50,11 +58,6 @@ bool ModuleRenderExercise::Init() {
 update_status ModuleRenderExercise::Update() {
     
     glUseProgram(shaderProgram);
-
-
-    //App->cameraEditor->Rotate(float3x3(1.0f, 0.0f, 0.0f,     0.0f, Cos(0.01f), -Sin(0.01f),     0.0f, Sin(0.01f), Cos(0.01f)));
-    //App->cameraEditor->Rotate(float3x3(Cos(0.01f), 0.0f, Sin(0.01f),     0.0f, 1.0f, 0.0f,     -Sin(0.01f), 0.0f, Cos(0.01f)));
-    //App->cameraEditor->Rotate(float3x3(Cos(0.01f), -Sin(0.01f), 0.0f,     Sin(0.01f), Cos(0.01f), 0.0f,     0.0f, 0.0f, 1.0f));
 
     projection = App->cameraEditor->GetProjectionMatrix();
     view = App->cameraEditor->GetViewMatrix();

@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -209,6 +209,7 @@
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleRenderExercise.cpp" />
+    <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +310,7 @@
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleRenderExercise.h" />
+    <ClInclude Include="ModuleTexture.h" />
     <ClInclude Include="ModuleWindow.h" />
   </ItemGroup>
   <ItemGroup>
