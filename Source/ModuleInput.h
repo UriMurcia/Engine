@@ -14,5 +14,8 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	bool mouseClicked = false;
+	float camMoveSpeed = 0.2f;
+	float camRotSpeed = 0.05f;
 
 };

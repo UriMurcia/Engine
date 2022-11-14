@@ -5,6 +5,7 @@
 #include "SDL/include/SDL.h"
 #include <imgui_impl_sdl.h>
 #include "ModuleCameraEditor.h"
+#include "ModuleWindow.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -46,75 +47,67 @@ update_status ModuleInput::Update()
                     App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
 			case SDL_MOUSEBUTTONDOWN:
-				if(sdlEvent.button.button == SDL_BUTTON_RIGHT){
-					float rotateAmount = 0.05f * (pi / 180);
-					App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), sdlEvent.motion.y * rotateAmount));
-					App->cameraEditor->Rotate(float3x3(Cos(sdlEvent.motion.x * rotateAmount), 0.0f, Sin(sdlEvent.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(sdlEvent.motion.x * rotateAmount), 0.0f, Cos(sdlEvent.motion.x * rotateAmount)));
+				if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
+					mouseClicked = true;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				mouseClicked = false;
+				break;
+			case SDL_MOUSEMOTION:
+				if (mouseClicked) {
+					SDL_SetRelativeMouseMode(SDL_TRUE);
+					float rotateAmount = -camRotSpeed * (pi / 180);
+					App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), sdlEvent.motion.yrel * rotateAmount));
+					App->cameraEditor->Rotate(float3x3(Cos(sdlEvent.motion.xrel * rotateAmount), 0.0f, Sin(sdlEvent.motion.xrel * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(sdlEvent.motion.xrel * rotateAmount), 0.0f, Cos(sdlEvent.motion.xrel * rotateAmount)));
+				}
+				else {
+					SDL_SetRelativeMouseMode(SDL_FALSE);
 				}
 				break;
         }
     }
-
+	
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE]) {
 		return UPDATE_STOP;
 	}
-	
-
 	if (state[SDL_SCANCODE_W]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * 0.2f);
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * camMoveSpeed);
 	}
 	if (state[SDL_SCANCODE_S]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.Front().Normalized() * 0.2f);
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.Front().Normalized() * camMoveSpeed);
 	}
 	if (state[SDL_SCANCODE_A]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.WorldRight().Normalized() * 0.2f);
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.WorldRight().Normalized() * camMoveSpeed);
 	}
 	if (state[SDL_SCANCODE_D]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.WorldRight().Normalized() * 0.2f);
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.WorldRight().Normalized() * camMoveSpeed);
 	}
 	if (state[SDL_SCANCODE_Q]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, 0.1f, 0));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, camMoveSpeed, 0));
 	}
 	if (state[SDL_SCANCODE_E]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, 0.1f, 0));
+		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, camMoveSpeed, 0));
 	}
 	if (state[SDL_SCANCODE_UP]) {
-		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), 0.05f));
+		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed));
 	}
 	if (state[SDL_SCANCODE_DOWN]) {
-		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), -0.05f));
+		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), -camRotSpeed));
 	}
 	if (state[SDL_SCANCODE_LEFT]) {
-		App->cameraEditor->Rotate(float3x3(Cos(0.05f), 0.0f, Sin(0.05f), 0.0f, 1.0f, 0.0f, -Sin(0.05f), 0.0f, Cos(0.05f)));
+		App->cameraEditor->Rotate(float3x3(Cos(camRotSpeed), 0.0f, Sin(camRotSpeed), 0.0f, 1.0f, 0.0f, -Sin(camRotSpeed), 0.0f, Cos(camRotSpeed)));
 	}
 	if (state[SDL_SCANCODE_RIGHT]) {
-		App->cameraEditor->Rotate(float3x3(Cos(-0.05f), 0.0f, Sin(-0.05f), 0.0f, 1.0f, 0.0f, -Sin(-0.05f), 0.0f, Cos(-0.05f)));
+		App->cameraEditor->Rotate(float3x3(Cos(-camRotSpeed), 0.0f, Sin(-camRotSpeed), 0.0f, 1.0f, 0.0f, -Sin(-camRotSpeed), 0.0f, Cos(-camRotSpeed)));
 	}
-
-	/*SDL_Event event;
-	SDL_PollEvent(&event); //canviar pel correcte, no el waitevent
-	if (event.type == SDL_MOUSEBUTTONDOWN)
-	{
-		switch (event.button.button)
-		{
-		case SDL_BUTTON_RIGHT:
-			float rotateAmount = 0.05f * (pi / 180);
-			App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), event.motion.y * rotateAmount));
-			App->cameraEditor->Rotate(float3x3(Cos(event.motion.x * rotateAmount), 0.0f, Sin(event.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(event.motion.x * rotateAmount), 0.0f, Cos(event.motion.x * rotateAmount)));
-		}
+	if (state[SDL_SCANCODE_LSHIFT]) {
+		camMoveSpeed = 0.4f;
 	}
-	
-	if (SDL_PollEvent(&event) != 0){
-		if (event.type == SDL_MOUSEMOTION && event.motion.state & SDL_BUTTON_RMASK) {
-			float rotateAmount = 0.05f * (pi / 180);
-			App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), event.motion.y * rotateAmount));
-			App->cameraEditor->Rotate(float3x3(Cos(event.motion.x * rotateAmount), 0.0f, Sin(event.motion.x * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(event.motion.x * rotateAmount), 0.0f, Cos(event.motion.x * rotateAmount)));
-			
-		}
-	}*/
-
+	else {
+		camMoveSpeed = 0.2f;
+	}
 	
 
     return UPDATE_CONTINUE;
