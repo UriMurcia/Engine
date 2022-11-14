@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleDebugDraw.h"
 #include "debugdraw.h"
+#include "MathAll.h"
 
 ModuleCameraEditor::ModuleCameraEditor()
 {}
@@ -57,6 +58,12 @@ void ModuleCameraEditor::SetPos(float3 pos) {
     frustum.SetPos(pos);
 }
 
+void ModuleCameraEditor::Translate(vec vect) {
+    frustum.Translate(-vect);
+    vec pos = frustum.Pos();
+    frustum.SetPos(pos);
+}
+
 void ModuleCameraEditor::SetOrientation(float3x3 up) {
     vec oldUp = frustum.Up().Normalized();
     frustum.SetUp(up.MulDir(oldUp));
@@ -64,14 +71,16 @@ void ModuleCameraEditor::SetOrientation(float3x3 up) {
 
 void ModuleCameraEditor::LookAt(float3x3 front) {
     vec oldFront = frustum.Front().Normalized();
-    frustum.SetFront(front.MulDir(oldFront)); //.MultDir(oldFront);
+    frustum.SetFront(front.MulDir(oldFront));
 }
 
 void ModuleCameraEditor::Rotate(float3x3 rotation) {
     vec oldUp = frustum.Up().Normalized();
     vec oldFront = frustum.Front().Normalized();
-    frustum.SetUp(rotation.MulDir(oldUp));
-    frustum.SetFront(rotation.MulDir(oldFront)); //.MultDir(oldFront);
+    //if (oldUp.y > 0) { //fix to limit angles up/down to avoid disorienting the user
+        frustum.SetUp(rotation.MulDir(oldUp));
+        frustum.SetFront(rotation.MulDir(oldFront));
+    //}
 }
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {

@@ -1,2 +1,4 @@
 ﻿  ModuleInput.cpp
+F:\Master\Programacio c plusplus\Engine\Source\ModuleInput.cpp(72,153): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+F:\Master\Programacio c plusplus\Engine\Source\ModuleInput.cpp(84,148): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
   Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

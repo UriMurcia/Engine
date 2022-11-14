@@ -17,6 +17,7 @@ public:
 	void SetAspectRatio(int screenWidth, int screenHeight);
 	void SetPlaneDistances(float nearDistance, float farDistance);
 	void SetPos(float3 pos);
+	void Translate(vec vect);
 	void SetOrientation(float3x3 up);
 	void LookAt(float3x3 front);
 	void Rotate(float3x3 rotate);
