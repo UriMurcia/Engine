@@ -52,7 +52,7 @@ bool ModuleTexture::Init() {
 		assert(false && "Unsupported format");
 	}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, md.width, md.height, 0, GL_RGB, GL_UNSIGNED_BYTE, &texture);//change &texture probably
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, md.width, md.height, 0, GL_RGB, GL_UNSIGNED_BYTE, data.GetPixels());//change &texture probably
 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
