@@ -1,10 +1,11 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "DirectXTex.h"
 #include "glew.h"
 
 #include <string>
+
+class ModuleRenderExercise;
 
 class ModuleTexture : public Module
 {
@@ -14,8 +15,12 @@ public:
 
 	bool Init();
 	update_status Update();
-	DirectX::ScratchImage LoadTexture(std::string path);
+	update_status PreUpdate();
+	update_status PostUpdate();
+	//DirectX::ScratchImage LoadTexture(std::string path);
+
 	GLuint texture;
+	ModuleRenderExercise* moduleRenderExercise;
 
 };
 

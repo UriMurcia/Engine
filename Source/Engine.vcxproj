@@ -102,14 +102,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\DirectXTex-oct2022\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug;.\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -315,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\helloWorld_vertexShader.glsl" />
+    <None Include="Game\Images\Test-image-Baboon.ppm" />
     <None Include="Game\Shaders\helloWorld_fragmentShader.glsl" />
     <None Include="Game\Shaders\helloWorld_vertexShader.glsl" />
     <None Include="MathGeoLib_Source\Geometry\KDTree.inl" />

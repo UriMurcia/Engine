@@ -29,11 +29,13 @@ bool ModuleRenderExercise::Init() {
     float vertices[] = {
          -1.0f, -1.0f, 0.0f, // v0 pos
          1.0f, -1.0f, 0.0f, // v1 pos
-         0.0f, 1.0f, 0.0f, // v2 pos
+         1.0f, 1.0f, 0.0f, // v2 pos
+         -1.0f, 1.0f, 0.0f, // v3 pos
 
          0.0f, 0.0f, // v0 texcoord
          1.0f, 0.0f, // v1 texcoord
-         0.5f, 1.0f // v2 texcoord
+         1.0f, 1.0f, // v2 texcoord
+         0.0f, 1.0f // v3 texcoord
     };
 
 
@@ -67,13 +69,20 @@ update_status ModuleRenderExercise::Update() {
     glUniformMatrix4fv(0, 1, GL_TRUE, &projection[0][0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glEnableVertexAttribArray(0);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(0);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(0);
 
-    i = i+0.01f;
+    return UPDATE_CONTINUE;
+}
+
+update_status ModuleRenderExercise::PostUpdate() {
+
+
+    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
 
     return UPDATE_CONTINUE;
 }
