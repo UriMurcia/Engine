@@ -5,8 +5,6 @@
 
 #include <string>
 
-class ModuleRenderExercise;
-
 class ModuleTexture : public Module
 {
 public:
@@ -20,7 +18,6 @@ public:
 	//DirectX::ScratchImage LoadTexture(std::string path);
 
 	GLuint texture;
-	ModuleRenderExercise* moduleRenderExercise;
 
 };
 

@@ -19,8 +19,7 @@ public:
 	update_status PostUpdate();
 
 	ModuleProgram* moduleProgram = nullptr;
-	GLuint VBO;
-	GLuint shaderProgram;
+	GLuint VBO, shaderProgram;
 	float4x4 model, view, projection;
 	
 };

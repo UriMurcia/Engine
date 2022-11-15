@@ -70,11 +70,13 @@ update_status ModuleRenderExercise::Update() {
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(3 * 4 * sizeof(float)));
+
+    glDrawArrays(GL_QUADS, 0, 3 * 2);
 
     return UPDATE_CONTINUE;
 }
@@ -82,7 +84,6 @@ update_status ModuleRenderExercise::Update() {
 update_status ModuleRenderExercise::PostUpdate() {
 
 
-    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
 
     return UPDATE_CONTINUE;
 }

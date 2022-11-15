@@ -1,9 +1,5 @@
 #include "ModuleTexture.h"
 #include "DirectXTex.h"
-#include "ModuleRenderExercise.h"
-
-//#include <codecvt>
-//#include <locale>
 
 ModuleTexture::ModuleTexture()
 {}
@@ -35,11 +31,18 @@ bool ModuleTexture::Init() {
 	}
 
 	glGenTextures(1, &texture);
-	glBindTexture(GL_ARRAY_BUFFER, texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	int format;
 	int internalFormat;
 	int type;
+
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
 	switch (md.format)
@@ -68,30 +71,23 @@ bool ModuleTexture::Init() {
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, md.width, md.height, 0, format, type, img.GetPixels());//change &texture probably
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, md.width, md.height, 0, GL_BGR, GL_UNSIGNED_BYTE, img.GetPixels());//change &texture probably
 
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
+	glEnable(GL_TEXTURE_2D);
 	return true;
 }
 
 update_status ModuleTexture::PreUpdate()
 {
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3));
-
-	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, texture);
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleTexture::Update() {
 
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 4 * 3));
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, texture);
 	return UPDATE_CONTINUE;
 }
 
