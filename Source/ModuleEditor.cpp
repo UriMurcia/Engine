@@ -3,11 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl3.h"
 
-#include <string>
 
 ModuleEditor::ModuleEditor()
 {
@@ -46,10 +42,10 @@ update_status ModuleEditor::Update() {
     ImGui_ImplSDL2_NewFrame(App->window->window);
     ImGui::NewFrame();
 
-
     ImGui::ShowDemoWindow(&show_demo_window);
 
     ShowAboutWindow();
+    showLogWindow();
     
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -76,12 +72,29 @@ bool ModuleEditor::CleanUp() {
 }
 
 
+void ModuleEditor::AddTextToLog(char *const text) {
+    textsLog.push_back(text);
+}
+
+void ModuleEditor::showLogWindow() {
+    bool enabled;
+
+    std::string windowName = std::string("Log");
+    ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize);
+        for (int i = 0; i < textsLog.size(); i++)
+        {
+            ImGui::TextUnformatted(textsLog[i]);
+        }
+
+    
+    ImGui::End();
+
+}
 
 void ModuleEditor::ShowAboutWindow() {
     bool enabled;
 
     std::string windowName = std::string("About");
-    ImVec4 colorWhite = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("Creative Engine");
         ImGui::Separator();

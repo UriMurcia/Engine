@@ -1,5 +1,2 @@
-﻿  ModuleRenderExercise.cpp
-C:\Users\oriolmc12\Downloads\Engine\Source\ModuleRenderExercise.cpp(67,201): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  ModuleTexture.cpp
-  Generating Code...
+﻿  ModuleEditor.cpp
   Engine.vcxproj -> C:\Users\oriolmc12\Downloads\Engine\Source\x64\Debug\Engine.exe
