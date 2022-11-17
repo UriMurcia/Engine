@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "float3x3.h"
 #include "ModuleCameraEditor.h"
+#include "ModuleTexture.h"
 
 #include <vector>
 
@@ -16,10 +17,12 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
+    glDeleteTextures(1, &texture);
 }
 
 bool ModuleRenderExercise::Init() {
     this->moduleProgram = new ModuleProgram();
+    this->moduleTexture = new ModuleTexture();
 
     /*float vertices[] = {
         -1.0f, -1.0f, 0.0f,
@@ -28,15 +31,43 @@ bool ModuleRenderExercise::Init() {
     };*/
     float vertices[] = {
          -1.0f, -1.0f, 0.0f, // v0 pos
-         1.0f, -1.0f, 0.0f, // v1 pos
-         1.0f, 1.0f, 0.0f, // v2 pos
-         -1.0f, 1.0f, 0.0f, // v3 pos
+         1.0f, 1.0f, 0.0f, // v1 pos
+         -1.0f, 1.0f, 0.0f, // v2 pos
+         -1.0f, -1.0f, 0.0f, // v3 pos
+         1.0f, -1.0f, 0.0f, // v3 pos
+         1.0f, 1.0f, 0.0f, // v3 pos
 
          0.0f, 0.0f, // v0 texcoord
-         1.0f, 0.0f, // v1 texcoord
-         1.0f, 1.0f, // v2 texcoord
-         0.0f, 1.0f // v3 texcoord
+         1.0f, 1.0f, // v1 texcoord
+         0.0f, 1.0f, // v2 texcoord
+         0.0f, 0.0f, // v3 texcoord
+         1.0f, 0.0f, // v3 texcoord
+         1.0f, 1.0f // v3 texcoord
     };
+
+
+    bool textLoaded = false;
+    textLoaded = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
+    //textLoaded = moduleTexture->LoadTexture("Images/test.png");
+
+    if (textLoaded) {
+        glEnable(GL_TEXTURE_2D);
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        moduleTexture->FillImageFormat();
+
+        glTexImage2D(GL_TEXTURE_2D, 0, moduleTexture->internalFormat, moduleTexture->md.width, moduleTexture->md.height, 0, moduleTexture->format, moduleTexture->type, moduleTexture->image.GetPixels());
+
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
 
 
     glGenBuffers(1, &VBO);
@@ -50,8 +81,8 @@ bool ModuleRenderExercise::Init() {
 	shaderProgram = this->moduleProgram->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
 
     model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-        float4x4::RotateZ(pi / 4.0f),
-        float3(2.0f, 1.0f, 0.0f));
+        float4x4::identity,
+        float3(1.0f));
 
 
     return true;
@@ -59,6 +90,7 @@ bool ModuleRenderExercise::Init() {
 
 update_status ModuleRenderExercise::Update() {
     
+    //Program
     glUseProgram(shaderProgram);
 
     projection = App->cameraEditor->GetProjectionMatrix();
@@ -70,13 +102,20 @@ update_status ModuleRenderExercise::Update() {
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(0);
 
+    //Texture
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 6 * 3));
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(3 * 4 * sizeof(float)));
 
-    glDrawArrays(GL_QUADS, 0, 3 * 2);
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    //glEnableVertexAttribArray(1);
+
+    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
 
     return UPDATE_CONTINUE;
 }

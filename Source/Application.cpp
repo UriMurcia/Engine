@@ -7,7 +7,6 @@
 #include "ModuleRenderExercise.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCameraEditor.h"
-#include "ModuleTexture.h"
 
 using namespace std;
 
@@ -18,7 +17,6 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(exercise = new ModuleRenderExercise());
-	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(cameraEditor = new ModuleCameraEditor());

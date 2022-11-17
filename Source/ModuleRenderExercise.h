@@ -6,6 +6,7 @@
 
 
 class ModuleProgram;
+class ModuleTexture;
 
 class ModuleRenderExercise : public Module
 {
@@ -19,7 +20,9 @@ public:
 	update_status PostUpdate();
 
 	ModuleProgram* moduleProgram = nullptr;
+	ModuleTexture* moduleTexture = nullptr;
 	GLuint VBO, shaderProgram;
+	GLuint texture;
 	float4x4 model, view, projection;
 	
 };
