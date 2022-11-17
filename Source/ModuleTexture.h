@@ -15,9 +15,16 @@ public:
 	update_status Update();
 	update_status PreUpdate();
 	update_status PostUpdate();
-	//DirectX::ScratchImage LoadTexture(std::string path);
+	void LoadTexture(std::string fileDir);
+	void FillImageFormat();
 
 	GLuint texture;
+	DirectX::TexMetadata md;
+	DirectX::ScratchImage img;
+	int format;
+	int internalFormat;
+	int type;
+
 
 };
 
