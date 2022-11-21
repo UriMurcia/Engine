@@ -20,7 +20,17 @@ bool ModuleEditor::Init() {
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+    /*io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
 
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        io.ConfigViewportsNoAutoMerge = false;
+        io.ConfigViewportsNoTaskBarIcon = true;
+    }
+
+    if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
+        io.ConfigDockingTransparentPayload = true;
+    }*/
 
     ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
     ImGui_ImplOpenGL3_Init("#version 130");
@@ -80,15 +90,20 @@ void ModuleEditor::showLogWindow() {
     bool enabled;
 
     std::string windowName = std::string("Log");
-    ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
+    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("LOG_ENGINE:                                                   ");
+        ImGui::Separator();
+        //ImVec2 sizeLibraries = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 4);
+        //ImGui::BeginChildFrame(ImGui::GetID("libraries"), sizeLibraries);
         for (int i = 0; i < textsLog.size(); i++)
         {
-            ImGui::TextUnformatted(textsLog[i]);
+            ImGui::Text(textsLog[i]);
         }
-
+        //ImGui::EndChildFrame();
+    }
     
     ImGui::End();
-
 }
 
 void ModuleEditor::ShowAboutWindow() {
@@ -104,7 +119,7 @@ void ModuleEditor::ShowAboutWindow() {
         ImGui::Separator();
 
         ImVec2 sizeLibraries = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 4);
-        ImGui::BeginChildFrame(ImGui::GetID("cfg_infos"), sizeLibraries);
+        ImGui::BeginChildFrame(ImGui::GetID("libraries"), sizeLibraries);
         ImGui::Text("Library 1: ");
         ImGui::Text("Library 2: ");
         ImGui::EndChildFrame();

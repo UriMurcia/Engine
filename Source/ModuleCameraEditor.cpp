@@ -38,6 +38,7 @@ update_status ModuleCameraEditor::Update() {
     dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
     dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::White);
     App->debugDraw->Draw(view, projection, screenWidth, screenHeight);
+    LOG_ENGINE("LEts see\n");
     return UPDATE_CONTINUE;
 }
 
