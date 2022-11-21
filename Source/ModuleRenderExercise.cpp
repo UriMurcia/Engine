@@ -5,6 +5,7 @@
 #include "float3x3.h"
 #include "ModuleCameraEditor.h"
 #include "ModuleTexture.h"
+#include "defs.h"
 
 #include <vector>
 
@@ -34,8 +35,8 @@ bool ModuleRenderExercise::Init() {
          1.0f, 1.0f, 0.0f, // v1 pos
          -1.0f, 1.0f, 0.0f, // v2 pos
          -1.0f, -1.0f, 0.0f, // v3 pos
-         1.0f, -1.0f, 0.0f, // v3 pos
-         1.0f, 1.0f, 0.0f, // v3 pos
+         1.0f, -1.0f, 0.0f, // v4 pos
+         1.0f, 1.0f, 0.0f, // v5 pos
 
          0.0f, 0.0f, // v0 texcoord
          1.0f, 1.0f, // v1 texcoord
@@ -113,7 +114,6 @@ update_status ModuleRenderExercise::Update() {
     glActiveTexture(GL_TEXTURE5);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    //glEnableVertexAttribArray(1);
 
     glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
 
