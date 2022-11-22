@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Assimp\include\assimp\port\AndroidJNI;.\Assimp\include\assimp\Compiler;.\Assimp\include;.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Assimp\include;.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Assimp\include\assimp\port\AndroidJNI;.\Assimp\include\assimp\Compiler;.\Assimp\include;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Assimp\include;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -204,6 +204,7 @@
     <ClCompile Include="MathGeoLib_Source\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib_Source\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib_Source\Time\Clock.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModuleCameraEditor.cpp" />
     <ClCompile Include="ModuleDebugDraw.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="MathGeoLib_Source\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib_Source\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib_Source\Time\Clock.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleCameraEditor.h" />
     <ClInclude Include="ModuleDebugDraw.h" />

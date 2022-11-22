@@ -5,13 +5,14 @@
 #include "float3x3.h"
 #include "ModuleCameraEditor.h"
 #include "ModuleTexture.h"
-#include "defs.h"
+
 
 #include <vector>
 
 
 ModuleRenderExercise::ModuleRenderExercise()
-{}
+{
+}
 
 // Destructor
 ModuleRenderExercise::~ModuleRenderExercise()
@@ -22,6 +23,7 @@ ModuleRenderExercise::~ModuleRenderExercise()
 }
 
 bool ModuleRenderExercise::Init() {
+    
     this->moduleProgram = new ModuleProgram();
     this->moduleTexture = new ModuleTexture();
 

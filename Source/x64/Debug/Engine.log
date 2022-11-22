@@ -3,7 +3,9 @@
   LineSegment.cpp
   float4d.cpp
   ModuleRenderExercise.cpp
-C:\Users\oriolmc12\Downloads\Engine\Source\Assimp\include\assimp\defs.h(55,10): fatal error C1083: Cannot open include file: 'assimp/config.h': No such file or directory
+C:\Users\oriolmc12\Downloads\Engine\Source\ModuleRenderExercise.cpp(68,201): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   ModuleTexture.cpp
   ModuleWindow.cpp
   Generating Code...
+  grisu3.c
+  Engine.vcxproj -> C:\Users\oriolmc12\Downloads\Engine\Source\x64\Debug\Engine.exe
