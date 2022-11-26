@@ -1,7 +1,8 @@
 #pragma once
 #include "Globals.h"
 #include "assimp/scene.h"
-#include "DirectXTex.h"
+#include "glew.h"
+#include "Mesh.h"
 
 
 #include <vector>
@@ -13,11 +14,13 @@ public:
 	Model();
 	~Model();
 
+	void Update();
 	void Load(const char* file_name);
-	void LoadMaterials(const aiScene* scene);
-	void LoadTextures(aiMaterial** materials, int numMaterials);
+	void LoadMaterials(aiMaterial** textures, int numMaterials);
 	void LoadMeshes(aiMesh** meshes, int numMeshes);
 
-	std::vector<DirectX::ScratchImage> materials;
+	std::vector<GLuint> materials;
+	std::vector<GLuint> meshes;
+	Mesh mesh;
 };
 

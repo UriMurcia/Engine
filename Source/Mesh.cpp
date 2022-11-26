@@ -8,8 +8,6 @@
 
 Mesh::Mesh()
 {
-	vertexShaderSource = App->program->ReadFile("Shaders/helloWorld_vertexShader.glsl");
-	fragmentShaderSource = App->program->ReadFile("Shaders/helloWorld_fragmentShader.glsl");
 
 }
 
@@ -19,6 +17,8 @@ Mesh::~Mesh()
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {
+	vertexShaderSource = App->program->ReadFile("Shaders/helloWorld_vertexShader.glsl");
+	fragmentShaderSource = App->program->ReadFile("Shaders/helloWorld_fragmentShader.glsl");
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -47,7 +47,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	unsigned index_size = sizeof(unsigned) * mesh->mNumFaces * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_size, nullptr, GL_STATIC_DRAW);
-	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_MAP_WRITE_BIT));
+	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
 		assert(mesh->mFaces[i].mNumIndices == 3); // note: assume triangles = 3 indices per face
@@ -68,22 +68,29 @@ void Mesh::CreateVAO()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));//maybe change num_indices?
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
 }
 
 void Mesh::Draw(const std::vector<unsigned>& model_textures)
 {
 	unsigned program = App->program->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
-	const float4x4& view = App->cameraEditor->GetViewMatrix();
-	const float4x4& proj = App->cameraEditor->GetProjectionMatrix();
-	float4x4 model = float4x4::identity;
+	float4x4 view = App->cameraEditor->GetViewMatrix();
+	float4x4 proj = App->cameraEditor->GetProjectionMatrix();
+	float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
+		float4x4::identity,
+		float3(1.0f));
+
 	glUseProgram(program);
-	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
-	glActiveTexture(GL_TEXTURE0);
+
+	glUniformMatrix4fv(2, 1, GL_TRUE, &model[0][0]);//GlTrue to transpose matrices due we are not using OpenGl (using mathgeolib)
+	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(0, 1, GL_TRUE, &proj[0][0]);
+
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
 	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
+
 	glBindVertexArray(vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
 }

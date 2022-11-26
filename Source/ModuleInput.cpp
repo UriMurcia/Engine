@@ -69,8 +69,7 @@ update_status ModuleInput::Update()
 				if (mouseRClicked || mouseLClicked || mouseMidClicked) {
 					//SDL_SetRelativeMouseMode(SDL_TRUE);
 					if ((mouseLClicked || mouseMidClicked) && !state[SDL_SCANCODE_LALT]) {
-						App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.WorldRight().Normalized() * camMoveSpeed * sdlEvent.motion.xrel);//left/right
-						App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, camMoveSpeed * sdlEvent.motion.yrel, 0)); //up/down
+						App->cameraEditor->Translate(vec(-camMoveSpeed * sdlEvent.motion.xrel, -camMoveSpeed * sdlEvent.motion.yrel, 0));
 					}
 					if (mouseRClicked && !mouseLClicked && !mouseMidClicked && !state[SDL_SCANCODE_LALT]) {
 						float rotateAmount = -camRotSpeed * (pi / 180);
@@ -81,7 +80,7 @@ update_status ModuleInput::Update()
 						App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed * sdlEvent.motion.xrel));
 					}*/
 					if (state[SDL_SCANCODE_LALT] && mouseRClicked) {
-						App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * camMoveSpeed * sdlEvent.motion.xrel);
+						App->cameraEditor->Translate(vec(0, 0, camMoveSpeed * sdlEvent.motion.xrel));
 					}
 				}
 				else {
@@ -96,24 +95,22 @@ update_status ModuleInput::Update()
 		return UPDATE_STOP;
 	}
 	if (state[SDL_SCANCODE_W]) {
-		//App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + App->cameraEditor->frustum.Front().Normalized() * camMoveSpeed);
 		App->cameraEditor->Translate(vec(0.f, 0.f, camMoveSpeed));
 	}
 	if (state[SDL_SCANCODE_S]) {
 		App->cameraEditor->Translate(vec(0.f, 0.f, -camMoveSpeed));
 	}
 	if (state[SDL_SCANCODE_A]) {
-		//App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - App->cameraEditor->frustum.WorldRight().Normalized() * camMoveSpeed);
 		App->cameraEditor->Translate(vec(-camMoveSpeed, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_D]) {
 		App->cameraEditor->Translate(vec(camMoveSpeed, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_Q]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() - float3(0, camMoveSpeed, 0));
+		App->cameraEditor->Translate(vec(0.f, camMoveSpeed, 0.f));
 	}
 	if (state[SDL_SCANCODE_E]) {
-		App->cameraEditor->SetPos(App->cameraEditor->frustum.Pos() + float3(0, camMoveSpeed, 0));
+		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed, 0.f));
 	}
 	if (state[SDL_SCANCODE_UP]) {
 		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed));

@@ -59,16 +59,13 @@ void ModuleCameraEditor::SetPos(float3 pos) {
 }
 
 void ModuleCameraEditor::Translate(vec vect) {
-    /*int x = frustum.Pos().x + App->cameraEditor->frustum.Front().Normalized().x * vect.x;
-    int y = frustum.Pos().y + App->cameraEditor->frustum.Front().Normalized().y * vect.y;
-    int z = frustum.Pos().z + App->cameraEditor->frustum.Front().Normalized().z * vect.z;*/
-    
-    //float x = App->cameraEditor->frustum.WorldRight().Normalized() * vect.x;
-    //float y = vect.y;
     vec z = App->cameraEditor->frustum.Front().Normalized() * vect.z;
-    float4x4 translationMat = float4x4(float3x4(float3x3::identity, vect));
-    /*frustum.Translate(-vect);
-    vec pos = frustum.Pos();*/
+    vec x = App->cameraEditor->frustum.WorldRight().Normalized() * vect.x;
+    vec y = vec(0, -vect.y, 0);
+    vec xyz = x + y + z;
+
+    float4x4 translationMat = float4x4(float3x4(float3x3::identity, xyz));
+
     frustum.SetPos((translationMat * float4(frustum.Pos(), 1.0f)).xyz());
 }
 
@@ -85,10 +82,13 @@ void ModuleCameraEditor::LookAt(float3x3 front) {
 void ModuleCameraEditor::Rotate(float3x3 rotation) {
     vec oldUp = frustum.Up().Normalized();
     vec oldFront = frustum.Front().Normalized();
-    //if (oldUp.y > 0) { //fix to limit angles up/down to avoid disorienting the user
+
+    float3 newUp = rotation.MulDir(oldUp);
+
+    if (newUp.y > 0.f) {
         frustum.SetUp(rotation.MulDir(oldUp));
         frustum.SetFront(rotation.MulDir(oldFront));
-    //}
+    }
 }
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {

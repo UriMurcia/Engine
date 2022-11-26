@@ -1,6 +1,2 @@
-﻿  Mesh.cpp
-  Model.cpp
-  ModuleRenderExercise.cpp
-F:\Master\Programacio c plusplus\Engine\Source\ModuleRenderExercise.cpp(69,190): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  Generating Code...
+﻿  ModuleCameraEditor.cpp
   Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

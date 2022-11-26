@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "glew.h"
 #include "float4x4.h"
+#include "Model.h"
 
 
 class ModuleProgram;
@@ -24,5 +25,5 @@ public:
 	GLuint VBO, shaderProgram;
 	GLuint texture;
 	float4x4 model, view, projection;
-	
+	Model model3d;
 };

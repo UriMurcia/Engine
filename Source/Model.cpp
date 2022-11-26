@@ -20,7 +20,7 @@ void Model::Load(const char* file_name)
 	{
 
 		aiString file;
-		LoadTextures(scene->mMaterials, scene->mNumMaterials);
+		LoadMaterials(scene->mMaterials, scene->mNumMaterials);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}
 	else
@@ -30,27 +30,33 @@ void Model::Load(const char* file_name)
 }
 
 
-void Model::LoadMaterials(const aiScene* scene)
+void Model::LoadMaterials(aiMaterial** textures, int numMaterials)
 {
 	aiString file;
+	std::string path = "GameObjects/";
 	
-	materials.reserve(scene->mNumMaterials);
-	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+	materials.reserve(numMaterials);
+	for (unsigned i = 0; i < numMaterials; ++i)
 	{
-		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
+		if (textures[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			materials.push_back(App->textures->LoadTexture(file.data));
+			materials.push_back(App->textures->LoadTexture(path + file.data));
 		}
 	}
 }
 
-
-void Model::LoadTextures(aiMaterial** materials, int numMaterialss)
-{
-	
+void Model::Update() {
+	mesh.Draw(materials);
 }
 
-void Model::LoadMeshes(aiMesh** meshes, int numMeshes)
-{
 
+void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
+{
+	meshes.reserve(numMeshes);
+	for (unsigned i = 0; i < numMeshes; ++i)
+	{
+		mesh.LoadVBO(meshObjects[i]);
+		mesh.LoadEBO(meshObjects[i]);
+		mesh.CreateVAO();
+	}
 }

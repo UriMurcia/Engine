@@ -32,7 +32,7 @@ void ModuleTexture::FillImageFormat() {
 	}
 }
 
-DirectX::ScratchImage ModuleTexture::LoadTexture(std::string fileDir) {
+GLuint ModuleTexture::LoadTexture(std::string fileDir) {
 	HRESULT result = E_FAIL;
 	DirectX::ScratchImage img;
 	DirectX::ScratchImage image;
@@ -52,5 +52,22 @@ DirectX::ScratchImage ModuleTexture::LoadTexture(std::string fileDir) {
 
 	DirectX::FlipRotate(img.GetImages(), 1, img.GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, image);
 	
-	return image;
+	//textLoaded = moduleTexture->LoadTexture("Images/test.png");
+	GLuint texture;
+
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	FillImageFormat();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, md.width, md.height, 0, format, type, image.GetPixels());
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	return texture;
 }

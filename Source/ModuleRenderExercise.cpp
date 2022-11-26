@@ -6,7 +6,6 @@
 #include "ModuleCameraEditor.h"
 #include "ModuleTexture.h"
 
-
 #include <vector>
 
 
@@ -49,28 +48,7 @@ bool ModuleRenderExercise::Init() {
     };
 
 
-    DirectX::ScratchImage textureLoaded;
-    textureLoaded = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
-    //textLoaded = moduleTexture->LoadTexture("Images/test.png");
-
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    moduleTexture->FillImageFormat();
-
-    glTexImage2D(GL_TEXTURE_2D, 0, moduleTexture->internalFormat, moduleTexture->md.width, moduleTexture->md.height, 0, moduleTexture->format, moduleTexture->type, textureLoaded.GetPixels());
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-    
-
+    /*texture = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
 
     glGenBuffers(1, &VBO);
 
@@ -84,16 +62,20 @@ bool ModuleRenderExercise::Init() {
 
     model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
         float4x4::identity,
-        float3(1.0f));
+        float3(1.0f));*/
+
+
+    model3d.Load("GameObjects/BakerHouse.fbx");
+
 
 
     return true;
 }
 
 update_status ModuleRenderExercise::Update() {
-    
+    model3d.Update();
     //Program
-    glUseProgram(shaderProgram);
+    /*glUseProgram(shaderProgram);
 
     projection = App->cameraEditor->GetProjectionMatrix();
     view = App->cameraEditor->GetViewMatrix();
@@ -116,7 +98,7 @@ update_status ModuleRenderExercise::Update() {
     glBindTexture(GL_TEXTURE_2D, texture);
 
 
-    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);
+    glDrawArrays(GL_TRIANGLES, 0, 3 * 2);*/
 
     return UPDATE_CONTINUE;
 }
