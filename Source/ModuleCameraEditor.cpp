@@ -59,9 +59,17 @@ void ModuleCameraEditor::SetPos(float3 pos) {
 }
 
 void ModuleCameraEditor::Translate(vec vect) {
-    frustum.Translate(-vect);
-    vec pos = frustum.Pos();
-    frustum.SetPos(pos);
+    /*int x = frustum.Pos().x + App->cameraEditor->frustum.Front().Normalized().x * vect.x;
+    int y = frustum.Pos().y + App->cameraEditor->frustum.Front().Normalized().y * vect.y;
+    int z = frustum.Pos().z + App->cameraEditor->frustum.Front().Normalized().z * vect.z;*/
+    
+    //float x = App->cameraEditor->frustum.WorldRight().Normalized() * vect.x;
+    //float y = vect.y;
+    vec z = App->cameraEditor->frustum.Front().Normalized() * vect.z;
+    float4x4 translationMat = float4x4(float3x4(float3x3::identity, vect));
+    /*frustum.Translate(-vect);
+    vec pos = frustum.Pos();*/
+    frustum.SetPos((translationMat * float4(frustum.Pos(), 1.0f)).xyz());
 }
 
 void ModuleCameraEditor::SetOrientation(float3x3 up) {
