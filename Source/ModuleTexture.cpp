@@ -32,10 +32,10 @@ void ModuleTexture::FillImageFormat() {
 	}
 }
 
-bool ModuleTexture::LoadTexture(std::string fileDir) {
+DirectX::ScratchImage ModuleTexture::LoadTexture(std::string fileDir) {
 	HRESULT result = E_FAIL;
 	DirectX::ScratchImage img;
-
+	DirectX::ScratchImage image;
 
 	std::wstring filename = std::wstring(fileDir.begin(), fileDir.end());
 
@@ -46,12 +46,11 @@ bool ModuleTexture::LoadTexture(std::string fileDir) {
 			result = LoadFromWICFile(filename.c_str(), DirectX::WIC_FLAGS_NONE, &md, img);
 			if (FAILED(result)) {
 				LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
-				return false;
 			}
 		}
 	}
 
 	DirectX::FlipRotate(img.GetImages(), 1, img.GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, image);
 	
-	return true;
+	return image;
 }

@@ -49,28 +49,27 @@ bool ModuleRenderExercise::Init() {
     };
 
 
-    bool textLoaded = false;
-    textLoaded = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
+    DirectX::ScratchImage textureLoaded;
+    textureLoaded = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
     //textLoaded = moduleTexture->LoadTexture("Images/test.png");
 
-    if (textLoaded) {
-        glEnable(GL_TEXTURE_2D);
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
 
 
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        // set texture filtering parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        moduleTexture->FillImageFormat();
+    moduleTexture->FillImageFormat();
 
-        glTexImage2D(GL_TEXTURE_2D, 0, moduleTexture->internalFormat, moduleTexture->md.width, moduleTexture->md.height, 0, moduleTexture->format, moduleTexture->type, moduleTexture->image.GetPixels());
+    glTexImage2D(GL_TEXTURE_2D, 0, moduleTexture->internalFormat, moduleTexture->md.width, moduleTexture->md.height, 0, moduleTexture->format, moduleTexture->type, textureLoaded.GetPixels());
 
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
 
 
     glGenBuffers(1, &VBO);

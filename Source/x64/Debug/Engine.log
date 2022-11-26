@@ -1,11 +1,6 @@
-﻿  Application.cpp
-  Line.cpp
-  LineSegment.cpp
-  float4d.cpp
+﻿  Mesh.cpp
+  Model.cpp
   ModuleRenderExercise.cpp
-C:\Users\oriolmc12\Downloads\Engine\Source\ModuleRenderExercise.cpp(68,201): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  ModuleTexture.cpp
-  ModuleWindow.cpp
+F:\Master\Programacio c plusplus\Engine\Source\ModuleRenderExercise.cpp(69,190): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Generating Code...
-  grisu3.c
-  Engine.vcxproj -> C:\Users\oriolmc12\Downloads\Engine\Source\x64\Debug\Engine.exe
+  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

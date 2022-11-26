@@ -12,11 +12,11 @@ public:
 	ModuleTexture();
 	~ModuleTexture();
 
-	bool LoadTexture(std::string fileDir);
+	DirectX::ScratchImage LoadTexture(std::string fileDir);
 	void FillImageFormat();
 
 	DirectX::TexMetadata md;
-	DirectX::ScratchImage image;
+	//DirectX::ScratchImage image;
 	int format;
 	int internalFormat;
 	int type;
