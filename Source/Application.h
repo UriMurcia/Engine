@@ -3,6 +3,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include "TimerNormal.h"
 
 class ModuleRender;
 class ModuleWindow;
@@ -40,6 +41,10 @@ public:
 private:
 
 	std::list<Module*> modules;
+	TimerNormal* timer = new TimerNormal();
+	int oldTime;
+	int newTime;
+	int currentTime;
 
 };
 

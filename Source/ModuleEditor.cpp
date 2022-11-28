@@ -94,13 +94,10 @@ void ModuleEditor::showLogWindow() {
     if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("LOG_ENGINE:                                                   ");
         ImGui::Separator();
-        //ImVec2 sizeLibraries = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 4);
-        //ImGui::BeginChildFrame(ImGui::GetID("libraries"), sizeLibraries);
         for (int i = 0; i < textsLog.size(); i++)
         {
             ImGui::Text(textsLog[i]);
         }
-        //ImGui::EndChildFrame();
     }
     
     ImGui::End();
