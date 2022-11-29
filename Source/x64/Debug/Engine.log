@@ -1,3 +1,19 @@
-﻿  ModuleEditor.cpp
-F:\Master\Programacio c plusplus\Engine\Source\ModuleEditor.cpp(90,10): warning C4101: 'enabled': unreferenced local variable
-  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe
+﻿  Application.cpp
+  Main.cpp
+  Mesh.cpp
+  Model.cpp
+C:\Users\oriolmc12\Downloads\Engine\Source\Model.cpp(44,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\oriolmc12\Downloads\Engine\Source\Model.cpp(61,25): warning C4018: '<': signed/unsigned mismatch
+  ModuleCameraEditor.cpp
+  ModuleEditor.cpp
+C:\Users\oriolmc12\Downloads\Engine\Source\ModuleEditor.cpp(90,10): warning C4101: 'enabled': unreferenced local variable
+  ModuleInput.cpp
+  ModuleProgram.cpp
+  ModuleRender.cpp
+  ModuleRenderExercise.cpp
+  ModuleWindow.cpp
+  TimerNormal.cpp
+  log.cpp
+  Generating Code...
+C:\Users\oriolmc12\Downloads\Engine\Source\ModuleProgram.cpp(35): warning C4715: 'ModuleProgram::CreateShader': not all control paths return a value
+  Engine.vcxproj -> C:\Users\oriolmc12\Downloads\Engine\Source\x64\Debug\Engine.exe

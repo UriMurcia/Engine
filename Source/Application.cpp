@@ -44,6 +44,7 @@ bool Application::Init()
 		ret = (*it)->Init();
 
 	timer->Start();
+	frameStart = timer->Read();
 
 	return ret;
 }
@@ -52,7 +53,9 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	int timePreviousFrame = frameStart;
 	frameStart = timer->Read();
+	dt = frameStart - timePreviousFrame;
 
 	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
@@ -65,7 +68,7 @@ update_status Application::Update()
 
 	frameDuration = timer->Read() - frameStart;
 
-	LOG_ENGINE("frameDuration: %i", frameDuration);
+
 	if (timer->limitTimeFrame > frameDuration) {
 		SDL_Delay(timer->limitTimeFrame - frameDuration);
 	}

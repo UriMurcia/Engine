@@ -41,6 +41,8 @@ public:
 	TimerNormal* timer = new TimerNormal();
 	int frameStart;
 	int frameDuration;
+	int dt;
+
 private:
 
 	std::list<Module*> modules;

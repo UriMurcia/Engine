@@ -33,7 +33,7 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::Update()
 {
-	int dt = App->frameDuration;
+	int dt = App->dt;
     SDL_Event sdlEvent;
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 
