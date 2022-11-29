@@ -33,6 +33,7 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::Update()
 {
+	int dt = App->frameDuration;
     SDL_Event sdlEvent;
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 
@@ -95,22 +96,22 @@ update_status ModuleInput::Update()
 		return UPDATE_STOP;
 	}
 	if (state[SDL_SCANCODE_W]) {
-		App->cameraEditor->Translate(vec(0.f, 0.f, camMoveSpeed));
+		App->cameraEditor->Translate(vec(0.f, 0.f, camMoveSpeed * dt));
 	}
 	if (state[SDL_SCANCODE_S]) {
-		App->cameraEditor->Translate(vec(0.f, 0.f, -camMoveSpeed));
+		App->cameraEditor->Translate(vec(0.f, 0.f, -camMoveSpeed * dt));
 	}
 	if (state[SDL_SCANCODE_A]) {
-		App->cameraEditor->Translate(vec(-camMoveSpeed, 0.f, 0.f));
+		App->cameraEditor->Translate(vec(-camMoveSpeed * dt, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_D]) {
-		App->cameraEditor->Translate(vec(camMoveSpeed, 0.f, 0.f));
+		App->cameraEditor->Translate(vec(camMoveSpeed * dt, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_Q]) {
-		App->cameraEditor->Translate(vec(0.f, camMoveSpeed, 0.f));
+		App->cameraEditor->Translate(vec(0.f, camMoveSpeed * dt, 0.f));
 	}
 	if (state[SDL_SCANCODE_E]) {
-		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed, 0.f));
+		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed * dt, 0.f));
 	}
 
 	if (state[SDL_SCANCODE_UP]) {

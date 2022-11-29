@@ -14,5 +14,8 @@ public:
 	int dt = 0;
 	int startTime = 0;
 	bool stoped = false;
+
+	const int fps = 60;
+	const int limitTimeFrame = 1000 / fps;
 };
 

@@ -38,13 +38,13 @@ public:
 	ModuleProgram* program = nullptr;
 	ModuleTexture* textures = nullptr;
 
+	TimerNormal* timer = new TimerNormal();
+	int frameStart;
+	int frameDuration;
 private:
 
 	std::list<Module*> modules;
-	TimerNormal* timer = new TimerNormal();
-	int oldTime;
-	int newTime;
-	int currentTime;
+
 
 };
 

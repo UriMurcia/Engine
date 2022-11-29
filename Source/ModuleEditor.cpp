@@ -54,7 +54,7 @@ update_status ModuleEditor::Update() {
 
     ImGui::ShowDemoWindow(&show_demo_window);
 
-    ShowAboutWindow();
+    //ShowAboutWindow();
     showLogWindow();
     
     ImGui::Render();
@@ -91,7 +91,7 @@ void ModuleEditor::showLogWindow() {
 
     std::string windowName = std::string("Log");
     ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::Begin(windowName.c_str())) {
         ImGui::Text("LOG_ENGINE:                                                   ");
         ImGui::Separator();
         for (int i = 0; i < textsLog.size(); i++)

@@ -1,9 +1,3 @@
-﻿  Application.cpp
-  Mesh.cpp
-  Model.cpp
-F:\Master\Programacio c plusplus\Engine\Source\Model.cpp(44,25): warning C4018: '<': signed/unsigned mismatch
-F:\Master\Programacio c plusplus\Engine\Source\Model.cpp(61,25): warning C4018: '<': signed/unsigned mismatch
-  ModuleInput.cpp
-  ModuleRenderExercise.cpp
-  Generating Code...
+﻿  ModuleEditor.cpp
+F:\Master\Programacio c plusplus\Engine\Source\ModuleEditor.cpp(90,10): warning C4101: 'enabled': unreferenced local variable
   Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe
