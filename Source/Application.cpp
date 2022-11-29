@@ -10,6 +10,8 @@
 #include "ModuleProgram.h"
 #include "ModuleTexture.h"
 
+#define TIME_PER_FRAME 1000.0f / 60.0f //60 frames per second
+
 using namespace std;
 
 Application::Application()
@@ -32,6 +34,8 @@ Application::~Application()
     {
         delete *it;
     }
+
+	delete timer;
 }
 
 bool Application::Init()
@@ -41,6 +45,9 @@ bool Application::Init()
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init();
 
+	timer->Start();
+	oldTime = timer->Read();
+
 	return ret;
 }
 
@@ -48,15 +55,21 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PreUpdate();
+	currentTime = timer->Read();
+	newTime = currentTime - oldTime;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->Update();
+	if (newTime > TIME_PER_FRAME) {
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->PreUpdate();
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PostUpdate();
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->Update();
 
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->PostUpdate();
+
+		oldTime = timer->Read();
+	}
 	return ret;
 }
 
