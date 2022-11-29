@@ -8,17 +8,22 @@
 
 Mesh::Mesh()
 {
-
 }
 
 // Destructor
 Mesh::~Mesh()
-{}
+{
+	glDeleteBuffers(1, &vbo);
+	glDeleteProgram(shaderProgram);
+	glDeleteBuffers(1, &ebo);
+	glDeleteVertexArrays(1, &vao);
+}
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {
 	vertexShaderSource = App->program->ReadFile("Shaders/helloWorld_vertexShader.glsl");
 	fragmentShaderSource = App->program->ReadFile("Shaders/helloWorld_fragmentShader.glsl");
+	
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -73,14 +78,14 @@ void Mesh::CreateVAO()
 
 void Mesh::Draw(const std::vector<unsigned>& model_textures)
 {
-	unsigned program = App->program->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
+	shaderProgram = App->program->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
 	float4x4 view = App->cameraEditor->GetViewMatrix();
 	float4x4 proj = App->cameraEditor->GetProjectionMatrix();
 	float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
 		float4x4::identity,
 		float3(1.0f));
 
-	glUseProgram(program);
+	glUseProgram(shaderProgram);
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, &model[0][0]);//GlTrue to transpose matrices due we are not using OpenGl (using mathgeolib)
 	glUniformMatrix4fv(1, 1, GL_TRUE, &view[0][0]);
@@ -88,7 +93,7 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
-	glUniform1i(glGetUniformLocation(program, "diffuse"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "diffuse"), 0);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

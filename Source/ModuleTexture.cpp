@@ -5,6 +5,7 @@ ModuleTexture::ModuleTexture()
 
 ModuleTexture::~ModuleTexture()
 {
+
 }
 
 void ModuleTexture::FillImageFormat() {

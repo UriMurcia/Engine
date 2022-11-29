@@ -20,7 +20,7 @@ public:
 	void Translate(vec vect);
 	void SetOrientation(float3x3 up);
 	void LookAt(float3x3 front);
-	void Rotate(float3x3 rotate);
+	void Rotate(float2 rotate);
 	float4x4 GetProjectionMatrix();
 	float4x4 GetViewMatrix();
 

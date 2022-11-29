@@ -73,8 +73,8 @@ update_status ModuleInput::Update()
 					}
 					if (mouseRClicked && !mouseLClicked && !mouseMidClicked && !state[SDL_SCANCODE_LALT]) {
 						float rotateAmount = -camRotSpeed * (pi / 180);
-						App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), sdlEvent.motion.yrel * rotateAmount));
-						App->cameraEditor->Rotate(float3x3(Cos(sdlEvent.motion.xrel * rotateAmount), 0.0f, Sin(sdlEvent.motion.xrel * rotateAmount), 0.0f, 1.0f, 0.0f, -Sin(sdlEvent.motion.xrel * rotateAmount), 0.0f, Cos(sdlEvent.motion.xrel * rotateAmount)));
+						App->cameraEditor->Rotate(float2(sdlEvent.motion.yrel * rotateAmount, 0.f));
+						App->cameraEditor->Rotate(float2(0.f, sdlEvent.motion.xrel * rotateAmount));
 					}
 					/*if (state[SDL_SCANCODE_LALT] && mouseLClicked) {
 						App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed * sdlEvent.motion.xrel));
@@ -112,18 +112,20 @@ update_status ModuleInput::Update()
 	if (state[SDL_SCANCODE_E]) {
 		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed, 0.f));
 	}
+
 	if (state[SDL_SCANCODE_UP]) {
-		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed));
+		App->cameraEditor->Rotate(float2(camRotSpeed, 0.f));
 	}
 	if (state[SDL_SCANCODE_DOWN]) {
-		App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), -camRotSpeed));
+		App->cameraEditor->Rotate(float2(-camRotSpeed, 0.f));
 	}
 	if (state[SDL_SCANCODE_LEFT]) {
-		App->cameraEditor->Rotate(float3x3(Cos(camRotSpeed), 0.0f, Sin(camRotSpeed), 0.0f, 1.0f, 0.0f, -Sin(camRotSpeed), 0.0f, Cos(camRotSpeed)));
+		App->cameraEditor->Rotate(float2(0.f, camRotSpeed));
 	}
 	if (state[SDL_SCANCODE_RIGHT]) {
-		App->cameraEditor->Rotate(float3x3(Cos(-camRotSpeed), 0.0f, Sin(-camRotSpeed), 0.0f, 1.0f, 0.0f, -Sin(-camRotSpeed), 0.0f, Cos(-camRotSpeed)));
+		App->cameraEditor->Rotate(float2(0.f, -camRotSpeed));
 	}
+
 	if (state[SDL_SCANCODE_LSHIFT]) {
 		camMoveSpeed = 0.4f;
 	}

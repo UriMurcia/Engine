@@ -27,11 +27,6 @@ bool ModuleRenderExercise::Init() {
     this->moduleTexture = new ModuleTexture();
 
     /*float vertices[] = {
-        -1.0f, -1.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,
-         0.0f,  1.0f, 0.0f
-    };*/
-    float vertices[] = {
          -1.0f, -1.0f, 0.0f, // v0 pos
          1.0f, 1.0f, 0.0f, // v1 pos
          -1.0f, 1.0f, 0.0f, // v2 pos
@@ -48,7 +43,7 @@ bool ModuleRenderExercise::Init() {
     };
 
 
-    /*texture = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
+    texture = moduleTexture->LoadTexture("Images/Test-image-Baboon.ppm");
 
     glGenBuffers(1, &VBO);
 
@@ -73,7 +68,10 @@ bool ModuleRenderExercise::Init() {
 }
 
 update_status ModuleRenderExercise::Update() {
+
     model3d.Update();
+
+
     //Program
     /*glUseProgram(shaderProgram);
 

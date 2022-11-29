@@ -17,7 +17,7 @@ public:
 	void CreateVAO();
 	void Draw(const std::vector<unsigned>& model_textures);
 
-	GLuint ebo, vao, vbo;
+	GLuint ebo, vao, vbo, shaderProgram;
 	int num_indices, num_vertices;
 	std::string vertexShaderSource, fragmentShaderSource;
 	int material_index = 0;

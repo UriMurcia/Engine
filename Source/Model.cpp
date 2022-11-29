@@ -7,11 +7,16 @@
 
 Model::Model()
 {
+	for (int i = 0; i < materials.size(); i++) {
+		glDeleteTextures(1, &materials[i]);
+	}
 }
 
 // Destructor
 Model::~Model()
-{}
+{
+
+}
 
 void Model::Load(const char* file_name)
 {
