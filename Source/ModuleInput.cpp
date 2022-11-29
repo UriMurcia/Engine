@@ -70,7 +70,7 @@ update_status ModuleInput::Update()
 				if (mouseRClicked || mouseLClicked || mouseMidClicked) {
 					//SDL_SetRelativeMouseMode(SDL_TRUE);
 					if ((mouseLClicked || mouseMidClicked) && !state[SDL_SCANCODE_LALT]) {
-						App->cameraEditor->Translate(vec(-camMoveSpeed * sdlEvent.motion.xrel, -camMoveSpeed * sdlEvent.motion.yrel, 0));
+						//App->cameraEditor->Translate(vec(-camMoveSpeed * sdlEvent.motion.xrel, -camMoveSpeed * sdlEvent.motion.yrel, 0));
 					}
 					if (mouseRClicked && !mouseLClicked && !mouseMidClicked && !state[SDL_SCANCODE_LALT]) {
 						float rotateAmount = -camRotSpeed * (pi / 180);
