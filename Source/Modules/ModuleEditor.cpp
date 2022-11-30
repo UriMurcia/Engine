@@ -56,6 +56,7 @@ update_status ModuleEditor::Update() {
 
     ShowAboutWindow();
     ShowLogWindow();
+    ShowFPSGraph();
     
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -82,6 +83,26 @@ bool ModuleEditor::CleanUp() {
 }
 
 
+void ModuleEditor::ShowFPSGraph() {
+    float dt = 1000.0f / (float)App->dt;
+    
+    if (fpsLog.size() == 100) {
+        fpsLog.erase(fpsLog.begin());
+    }
+
+    fpsLog.push_back(floor(dt));
+
+    bool enabled;
+
+    std::string windowName = std::string("Framerate");
+    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
+    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
+    }
+    ImGui::End();
+}
+
+
 void ModuleEditor::AddTextToLog(char *const text) {
     textsLog.push_back(text);
 }
@@ -94,9 +115,10 @@ void ModuleEditor::ShowLogWindow() {
     if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("LOG_ENGINE:                                                   ");
         ImGui::Separator();
+        
         for (int i = 0; i < textsLog.size(); i++)
         {
-            ImGui::Text(textsLog[i]);
+            ImGui::Text(textsLog[i].c_str());
         }
     }
     

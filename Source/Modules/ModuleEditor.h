@@ -24,10 +24,11 @@ public:
 	void ShowLogWindow();
 	void DragDropObjects();
 	void AddTextToLog(char *const text);
+	void ShowFPSGraph();
 	
 	bool show_demo_window = true;
 	bool show_another_window = false;
 
-	ImVector<char*> textsLog;
-
+	std::vector<std::string> textsLog;
+	std::vector<float> fpsLog;
 };

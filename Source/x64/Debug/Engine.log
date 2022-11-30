@@ -1,3 +1,3 @@
 ﻿  ModuleTexture.cpp
-F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(88,104): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(92,104): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

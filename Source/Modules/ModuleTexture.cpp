@@ -34,7 +34,7 @@ void ModuleTexture::FillImageFormat() {
 	}
 }
 
-bool ModuleTexture::LoadImageFromPath(std::string fileDir) {
+bool ModuleTexture::LoadImageFromPath(std::string fileDir, std::string typeOfError) {
 	filename = std::wstring(fileDir.begin(), fileDir.end());
 	HRESULT result = E_FAIL;
 	result = LoadFromDDSFile(filename.c_str(), DirectX::DDS_FLAGS_NONE, &md, img);
@@ -43,11 +43,12 @@ bool ModuleTexture::LoadImageFromPath(std::string fileDir) {
 		if (FAILED(result)) {
 			result = LoadFromWICFile(filename.c_str(), DirectX::WIC_FLAGS_NONE, &md, img);
 			if (FAILED(result)) {
-				LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
+				LOG_ENGINE("% s", typeOfError.c_str());
 				return false;
 			}
 		}
 	}
+	LOG_ENGINE("Image Found! (%s)", fileDir.c_str());
 	return true;
 }
 
@@ -57,16 +58,19 @@ GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePa
 	std::string path = "Textures/";
 
 	bool textureLoaded = false;
-	textureLoaded = LoadImageFromPath(fileDir);
+	textureLoaded = LoadImageFromPath(fileDir, "Image not found in path described inside FBX. Checking same directory as FBX...");
 
 	if (!textureLoaded) {
 		std::string stringFTP = fullTexturePath;
 		size_t found = stringFTP.find_last_of("/\\");
 		std::string textureDirectory = stringFTP.substr(0, found);
-		textureLoaded = LoadImageFromPath(textureDirectory + "/" + fileDir);
+		textureLoaded = LoadImageFromPath(textureDirectory + "/" + fileDir, "Image not found in same directory as FBX. Checking in /Textures folder...");
 
 		if (!textureLoaded) {
-			textureLoaded = LoadImageFromPath(path + fileDir);
+			textureLoaded = LoadImageFromPath(path + fileDir, "Image not found in /Textures folder. ERROR");
+			if (!textureLoaded) {
+				LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
+			}
 		}
 	}
 

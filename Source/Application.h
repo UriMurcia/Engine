@@ -41,7 +41,7 @@ public:
 	TimerNormal* timer = new TimerNormal();
 	int frameStart;
 	int frameDuration;
-	int dt;
+	int dt = 0;
 
 private:
 

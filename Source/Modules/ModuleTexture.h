@@ -23,7 +23,7 @@ public:
 
 private:
 	void FillImageFormat();
-	bool LoadImageFromPath(std::string fileDir);
+	bool LoadImageFromPath(std::string fileDir, std::string typeOfError);
 
 };
 
