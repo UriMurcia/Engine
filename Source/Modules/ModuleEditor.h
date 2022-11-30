@@ -21,7 +21,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void ShowAboutWindow();
-	void showLogWindow();
+	void ShowLogWindow();
+	void DragDropObjects();
 	void AddTextToLog(char *const text);
 	
 	bool show_demo_window = true;

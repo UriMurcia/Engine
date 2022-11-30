@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
 typedef unsigned __int8 Uint8;
 
 class ModuleInput : public Module
@@ -17,7 +16,7 @@ public:
 	bool mouseLClicked = false;
 	bool mouseRClicked = false;
 	bool mouseMidClicked = false;
-	float camMoveSpeed = 0.2f;
+	float camMoveSpeed;
 	float camRotSpeed = 0.1f;
 
 };

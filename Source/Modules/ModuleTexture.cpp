@@ -1,4 +1,5 @@
 #include "ModuleTexture.h"
+#include "Shlwapi.h"
 
 ModuleTexture::ModuleTexture()
 {}
@@ -33,13 +34,9 @@ void ModuleTexture::FillImageFormat() {
 	}
 }
 
-GLuint ModuleTexture::LoadTexture(std::string fileDir) {
+bool ModuleTexture::LoadImageFromPath(std::string fileDir) {
+	filename = std::wstring(fileDir.begin(), fileDir.end());
 	HRESULT result = E_FAIL;
-	DirectX::ScratchImage img;
-	DirectX::ScratchImage image;
-
-	std::wstring filename = std::wstring(fileDir.begin(), fileDir.end());
-
 	result = LoadFromDDSFile(filename.c_str(), DirectX::DDS_FLAGS_NONE, &md, img);
 	if (FAILED(result)) {
 		result = LoadFromTGAFile(filename.c_str(), &md, img);
@@ -47,13 +44,35 @@ GLuint ModuleTexture::LoadTexture(std::string fileDir) {
 			result = LoadFromWICFile(filename.c_str(), DirectX::WIC_FLAGS_NONE, &md, img);
 			if (FAILED(result)) {
 				LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
+				return false;
 			}
+		}
+	}
+	return true;
+}
+
+GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePath) {
+
+	DirectX::ScratchImage image;
+	std::string path = "Textures/";
+
+	bool textureLoaded = false;
+	textureLoaded = LoadImageFromPath(fileDir);
+
+	if (!textureLoaded) {
+		std::string stringFTP = fullTexturePath;
+		size_t found = stringFTP.find_last_of("/\\");
+		std::string textureDirectory = stringFTP.substr(0, found);
+		textureLoaded = LoadImageFromPath(textureDirectory + "/" + fileDir);
+
+		if (!textureLoaded) {
+			textureLoaded = LoadImageFromPath(path + fileDir);
 		}
 	}
 
 	DirectX::FlipRotate(img.GetImages(), 1, img.GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, image);
 	
-	//textLoaded = moduleTexture->LoadTexture("Images/test.png");
+
 	GLuint texture;
 
 	glEnable(GL_TEXTURE_2D);

@@ -6,6 +6,10 @@
 #include <imgui_impl_sdl.h>
 #include "ModuleCameraEditor.h"
 #include "ModuleWindow.h"
+#include "ModuleRenderExercise.h"
+
+#define CAM_SPEED 0.02f
+#define FAST_CAM_SPEED CAM_SPEED * 2.0f
 
 ModuleInput::ModuleInput()
 {}
@@ -33,7 +37,10 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::Update()
 {
-	int dt = App->dt;
+	float dt = (float)App->dt;
+
+	char* droppedFile;
+
     SDL_Event sdlEvent;
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 
@@ -64,8 +71,6 @@ update_status ModuleInput::Update()
 				if (sdlEvent.button.button == SDL_BUTTON_MIDDLE)
 					mouseMidClicked = false;
 				break;
-
-
 			case SDL_MOUSEMOTION:
 				if (mouseRClicked || mouseLClicked || mouseMidClicked) {
 					//SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -88,9 +93,15 @@ update_status ModuleInput::Update()
 					//SDL_SetRelativeMouseMode(SDL_FALSE);
 				}
 				break;
+			case SDL_DROPFILE:
+				droppedFile = sdlEvent.drop.file;
+				App->exercise->LoadModel3D(droppedFile);
+				SDL_free(droppedFile);
+				break;
         }
     }
 	
+
 
 	if (state[SDL_SCANCODE_ESCAPE]) {
 		return UPDATE_STOP;
@@ -128,10 +139,10 @@ update_status ModuleInput::Update()
 	}
 
 	if (state[SDL_SCANCODE_LSHIFT]) {
-		camMoveSpeed = 0.4f;
+		camMoveSpeed = FAST_CAM_SPEED;
 	}
 	else {
-		camMoveSpeed = 0.2f;
+		camMoveSpeed = CAM_SPEED;
 	}
 	
 

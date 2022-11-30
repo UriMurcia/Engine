@@ -7,15 +7,14 @@
 
 Model::Model()
 {
-	for (int i = 0; i < materials.size(); i++) {
-		glDeleteTextures(1, &materials[i]);
-	}
 }
 
 // Destructor
 Model::~Model()
 {
-
+	for (int i = 0; i < materials.size(); i++) {
+		glDeleteTextures(1, &materials[i]);
+	}
 }
 
 void Model::Load(const char* file_name)
@@ -25,7 +24,7 @@ void Model::Load(const char* file_name)
 	{
 
 		aiString file;
-		LoadMaterials(scene->mMaterials, scene->mNumMaterials);
+		LoadMaterials(scene->mMaterials, scene->mNumMaterials, file_name);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}
 	else
@@ -35,17 +34,16 @@ void Model::Load(const char* file_name)
 }
 
 
-void Model::LoadMaterials(aiMaterial** textures, int numMaterials)
+void Model::LoadMaterials(aiMaterial** textures, int numMaterials, const char* fullTexturePath)
 {
 	aiString file;
-	std::string path = "GameObjects/";
 	
 	materials.reserve(numMaterials);
 	for (unsigned i = 0; i < numMaterials; ++i)
 	{
 		if (textures[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			materials.push_back(App->textures->LoadTexture(path + file.data));
+			materials.push_back(App->textures->LoadTexture(file.data, fullTexturePath));
 		}
 	}
 }
@@ -57,7 +55,6 @@ void Model::Update() {
 
 void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 {
-	meshes.reserve(numMeshes);
 	for (unsigned i = 0; i < numMeshes; ++i)
 	{
 		mesh.LoadVBO(meshObjects[i]);

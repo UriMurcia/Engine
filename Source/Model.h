@@ -16,11 +16,10 @@ public:
 
 	void Update();
 	void Load(const char* file_name);
-	void LoadMaterials(aiMaterial** textures, int numMaterials);
+	void LoadMaterials(aiMaterial** textures, int numMaterials, const char* file_name);
 	void LoadMeshes(aiMesh** meshes, int numMeshes);
 
 	std::vector<GLuint> materials;
-	std::vector<GLuint> meshes;
 	Mesh mesh;
 };
 

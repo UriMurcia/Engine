@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Assimp\include;.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;.\Modules;.\Assimp\include;.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -206,15 +206,15 @@
     <ClCompile Include="MathGeoLib_Source\Time\Clock.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModuleCameraEditor.cpp" />
-    <ClCompile Include="ModuleDebugDraw.cpp" />
-    <ClCompile Include="ModuleEditor.cpp" />
-    <ClCompile Include="ModuleInput.cpp" />
-    <ClCompile Include="ModuleProgram.cpp" />
-    <ClCompile Include="ModuleRender.cpp" />
-    <ClCompile Include="ModuleRenderExercise.cpp" />
-    <ClCompile Include="ModuleTexture.cpp" />
-    <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Modules\ModuleCameraEditor.cpp" />
+    <ClCompile Include="Modules\ModuleDebugDraw.cpp" />
+    <ClCompile Include="Modules\ModuleEditor.cpp" />
+    <ClCompile Include="Modules\ModuleInput.cpp" />
+    <ClCompile Include="Modules\ModuleProgram.cpp" />
+    <ClCompile Include="Modules\ModuleRender.cpp" />
+    <ClCompile Include="Modules\ModuleRenderExercise.cpp" />
+    <ClCompile Include="Modules\ModuleTexture.cpp" />
+    <ClCompile Include="Modules\ModuleWindow.cpp" />
     <ClCompile Include="TimerNormal.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -309,16 +309,16 @@
     <ClInclude Include="MathGeoLib_Source\Time\Clock.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="Module.h" />
-    <ClInclude Include="ModuleCameraEditor.h" />
-    <ClInclude Include="ModuleDebugDraw.h" />
-    <ClInclude Include="ModuleEditor.h" />
-    <ClInclude Include="ModuleInput.h" />
-    <ClInclude Include="ModuleProgram.h" />
-    <ClInclude Include="ModuleRender.h" />
-    <ClInclude Include="ModuleRenderExercise.h" />
-    <ClInclude Include="ModuleTexture.h" />
-    <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Modules\Module.h" />
+    <ClInclude Include="Modules\ModuleCameraEditor.h" />
+    <ClInclude Include="Modules\ModuleDebugDraw.h" />
+    <ClInclude Include="Modules\ModuleEditor.h" />
+    <ClInclude Include="Modules\ModuleInput.h" />
+    <ClInclude Include="Modules\ModuleProgram.h" />
+    <ClInclude Include="Modules\ModuleRender.h" />
+    <ClInclude Include="Modules\ModuleRenderExercise.h" />
+    <ClInclude Include="Modules\ModuleTexture.h" />
+    <ClInclude Include="Modules\ModuleWindow.h" />
     <ClInclude Include="TimerNormal.h" />
   </ItemGroup>
   <ItemGroup>

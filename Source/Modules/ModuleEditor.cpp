@@ -55,7 +55,7 @@ update_status ModuleEditor::Update() {
     ImGui::ShowDemoWindow(&show_demo_window);
 
     ShowAboutWindow();
-    showLogWindow();
+    ShowLogWindow();
     
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -86,12 +86,12 @@ void ModuleEditor::AddTextToLog(char *const text) {
     textsLog.push_back(text);
 }
 
-void ModuleEditor::showLogWindow() {
+void ModuleEditor::ShowLogWindow() {
     bool enabled;
 
     std::string windowName = std::string("Log");
     ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str())) {
+    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("LOG_ENGINE:                                                   ");
         ImGui::Separator();
         for (int i = 0; i < textsLog.size(); i++)

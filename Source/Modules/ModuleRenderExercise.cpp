@@ -60,17 +60,20 @@ bool ModuleRenderExercise::Init() {
         float3(1.0f));*/
 
 
-    model3d.Load("GameObjects/BakerHouse.fbx");
+    //LoadModel3D("GameObjects/BakerHouse.fbx");
 
 
 
     return true;
 }
 
+
 update_status ModuleRenderExercise::Update() {
 
-    model3d.Update();
-
+    for (int i = 0; i < models3d.size(); i++) {
+        models3d[i]->Update();
+    }
+    
 
     //Program
     /*glUseProgram(shaderProgram);
@@ -106,4 +109,10 @@ update_status ModuleRenderExercise::PostUpdate() {
 
 
     return UPDATE_CONTINUE;
+}
+
+void ModuleRenderExercise::LoadModel3D(const char* file_name) {
+    Model* model3D = new Model();
+    model3D->Load(file_name);
+    models3d.push_back(model3D);
 }
