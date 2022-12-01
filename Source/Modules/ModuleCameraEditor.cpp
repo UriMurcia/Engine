@@ -95,6 +95,21 @@ void ModuleCameraEditor::Rotate(float2 rotation) {
     }
 }
 
+void ModuleCameraEditor::FocusCamera(float3x3 positionToLook, float modelWidth, float modelHeight) {
+    //float distance = sphere.radius / sin(fov / 2);
+    //float3 eyePoint = sphere.centerPoint - distance * camera.frontVector;
+
+    LookAt(positionToLook);
+    float scaledBasis;
+    if (modelWidth >= modelHeight) {
+        scaledBasis = modelWidth / (2 * tan(frustum.HorizontalFov() / 2));
+    }
+    else {
+        scaledBasis = modelHeight / (2 * tan(frustum.VerticalFov() / 2));
+    }
+    //SetPos(frustum.Pos() + scaledBasis);
+}
+
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {
     return frustum.ProjectionMatrix();
 }

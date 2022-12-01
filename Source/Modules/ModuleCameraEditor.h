@@ -21,6 +21,7 @@ public:
 	void SetOrientation(float3x3 up);
 	void LookAt(float3x3 front);
 	void Rotate(float2 rotate);
+	void FocusCamera(float3x3 positionToLook, float modelWidth, float modelHeight);
 	float4x4 GetProjectionMatrix();
 	float4x4 GetViewMatrix();
 

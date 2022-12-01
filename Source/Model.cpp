@@ -23,7 +23,6 @@ void Model::Load(const char* file_name)
 	if (scene)
 	{
 
-		aiString file;
 		LoadMaterials(scene->mMaterials, scene->mNumMaterials, file_name);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}
@@ -57,6 +56,7 @@ void Model::Update() {
 
 void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 {
+		
 	meshes.reserve(numMeshes);
 	for (int i = 0; i < numMeshes; ++i)
 	{
@@ -67,5 +67,4 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 		mesh->material_index = meshObjects[i]->mMaterialIndex;
 		meshes.push_back(mesh);
 	}
-
 }

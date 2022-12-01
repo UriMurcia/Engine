@@ -83,7 +83,7 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 	float4x4 view = App->cameraEditor->GetViewMatrix();
 	float4x4 proj = App->cameraEditor->GetProjectionMatrix();
 	float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-		float4x4::identity,
+		float4x4::identity	,
 		float3(1.0f));
 
 	glUseProgram(shaderProgram);

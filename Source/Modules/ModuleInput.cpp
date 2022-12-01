@@ -8,7 +8,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderExercise.h"
 
-#define CAM_SPEED 0.02f
+#define CAM_SPEED 0.006f
 #define FAST_CAM_SPEED CAM_SPEED * 2.0f
 
 ModuleInput::ModuleInput()
