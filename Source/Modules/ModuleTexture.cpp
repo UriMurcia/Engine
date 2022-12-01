@@ -34,7 +34,7 @@ void ModuleTexture::FillImageFormat() {
 	}
 }
 
-bool ModuleTexture::LoadImageFromPath(std::string fileDir, std::string typeOfError) {
+bool ModuleTexture::LoadImageFromPath(std::string fileDir) {
 	filename = std::wstring(fileDir.begin(), fileDir.end());
 	HRESULT result = E_FAIL;
 	result = LoadFromDDSFile(filename.c_str(), DirectX::DDS_FLAGS_NONE, &md, img);
@@ -43,7 +43,6 @@ bool ModuleTexture::LoadImageFromPath(std::string fileDir, std::string typeOfErr
 		if (FAILED(result)) {
 			result = LoadFromWICFile(filename.c_str(), DirectX::WIC_FLAGS_NONE, &md, img);
 			if (FAILED(result)) {
-				LOG_ENGINE("% s", typeOfError.c_str());
 				return false;
 			}
 		}
@@ -54,26 +53,58 @@ bool ModuleTexture::LoadImageFromPath(std::string fileDir, std::string typeOfErr
 
 GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePath) {
 
-	DirectX::ScratchImage image;
 	std::string path = "Textures/";
 
 	bool textureLoaded = false;
-	textureLoaded = LoadImageFromPath(fileDir, "Image not found in path described inside FBX. Checking same directory as FBX...");
+	/*Checking texture in the path described inside the fbx directly*/
+	LOG_ENGINE("Searching texture in path described by FBX...");
+	textureLoaded = LoadImageFromPath(fileDir);
 
 	if (!textureLoaded) {
+		LOG_ENGINE("Checking same directory as FBX...");
+
+		/*Checking texture in the same directory as the fbx (with the path of the image from inside the fbx)*/
 		std::string stringFTP = fullTexturePath;
 		size_t found = stringFTP.find_last_of("/\\");
 		std::string textureDirectory = stringFTP.substr(0, found);
-		textureLoaded = LoadImageFromPath(textureDirectory + "/" + fileDir, "Image not found in same directory as FBX. Checking in /Textures folder...");
+		textureLoaded = LoadImageFromPath(textureDirectory + "/" + fileDir);
+
 
 		if (!textureLoaded) {
-			textureLoaded = LoadImageFromPath(path + fileDir, "Image not found in /Textures folder. ERROR");
+			LOG_ENGINE("Checking in /Textures folder...");
+			
+			/*Checking texture in the /Textures directory (with the path of the image from inside the fbx)*/
+			textureLoaded = LoadImageFromPath(path + fileDir);
+
+
 			if (!textureLoaded) {
-				LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
+				LOG_ENGINE("Checking if path described by FBX has extra '/'...");
+
+				/*Checking texture in the same directory as the fbx (without the complete path of the image from inside the fbx, only the image name)*/
+				std::string stringDir = fileDir;
+				if (stringDir.find('/\\') != std::string::npos) {
+					size_t foundTextureName = stringDir.find_last_of("/\\");
+					std::string textureName = stringDir.substr(foundTextureName, stringDir.length());
+					textureLoaded = LoadImageFromPath(textureDirectory + textureName);
+
+
+					if (!textureLoaded) {
+						LOG_ENGINE("...");
+
+						/*Checking texture in the /Textures directory (without the complete path of the image from inside the fbx, only the image name)*/
+						textureLoaded = LoadImageFromPath(path + textureName);
+
+
+						if (!textureLoaded) {
+							LOG_ENGINE("Material convertor error: texture loading failed (%s)", fileDir.c_str());
+						}
+					}
+				}
 			}
 		}
 	}
 
+	DirectX::ScratchImage image;
 	DirectX::FlipRotate(img.GetImages(), 1, img.GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, image);
 	
 

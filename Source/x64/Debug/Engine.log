@@ -1,3 +1,11 @@
-﻿  ModuleTexture.cpp
-F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(92,104): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+﻿  ModuleRenderExercise.cpp
+  ModuleTexture.cpp
+F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(85,8): warning C4305: 'argument': truncation from 'int' to 'const _Elem'
+          with
+          [
+              _Elem=char
+          ]
+F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(85,24): warning C4309: 'argument': truncation of constant value
+F:\Master\Programacio c plusplus\Engine\Source\Modules\ModuleTexture.cpp(123,104): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Generating Code...
   Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

@@ -60,7 +60,7 @@ bool ModuleRenderExercise::Init() {
         float3(1.0f));*/
 
 
-    //LoadModel3D("GameObjects/BakerHouse.fbx");
+    LoadModel3D("GameObjects/BakerHouse.fbx");
 
 
 
@@ -112,6 +112,9 @@ update_status ModuleRenderExercise::PostUpdate() {
 }
 
 void ModuleRenderExercise::LoadModel3D(const char* file_name) {
+    if (models3d.size() == 1) {
+        models3d.erase(models3d.begin());
+    }
     Model* model3D = new Model();
     model3D->Load(file_name);
     models3d.push_back(model3D);

@@ -22,7 +22,6 @@ public:
 	bool CleanUp();
 	void ShowAboutWindow();
 	void ShowLogWindow();
-	void DragDropObjects();
 	void AddTextToLog(char *const text);
 	void ShowFPSGraph();
 	

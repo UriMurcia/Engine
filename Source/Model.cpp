@@ -49,16 +49,23 @@ void Model::LoadMaterials(aiMaterial** textures, int numMaterials, const char* f
 }
 
 void Model::Update() {
-	mesh.Draw(materials);
+	for (int i = 0; i < meshes.size(); ++i) {
+		meshes[i]->Draw(materials);
+	}
 }
 
 
 void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 {
-	for (unsigned i = 0; i < numMeshes; ++i)
+	meshes.reserve(numMeshes);
+	for (int i = 0; i < numMeshes; ++i)
 	{
-		mesh.LoadVBO(meshObjects[i]);
-		mesh.LoadEBO(meshObjects[i]);
-		mesh.CreateVAO();
+		Mesh* mesh = new Mesh();
+		mesh->LoadVBO(meshObjects[i]);
+		mesh->LoadEBO(meshObjects[i]);
+		mesh->CreateVAO();
+		mesh->material_index = meshObjects[i]->mMaterialIndex;
+		meshes.push_back(mesh);
 	}
+
 }

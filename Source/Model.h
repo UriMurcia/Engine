@@ -20,6 +20,7 @@ public:
 	void LoadMeshes(aiMesh** meshes, int numMeshes);
 
 	std::vector<GLuint> materials;
-	Mesh mesh;
+	std::vector<Mesh*> meshes;
+	//Mesh mesh;
 };
 

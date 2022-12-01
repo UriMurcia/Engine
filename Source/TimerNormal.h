@@ -15,7 +15,7 @@ public:
 	int startTime = 0;
 	bool stoped = false;
 
-	const int fps = 60;
+	const int fps = 30;
 	const int limitTimeFrame = 1000 / fps;
 };
 

@@ -20,5 +20,5 @@ public:
 	GLuint ebo, vao, vbo, shaderProgram;
 	int num_indices, num_vertices;
 	std::string vertexShaderSource, fragmentShaderSource;
-	int material_index = 0;
+	int material_index;
 };
