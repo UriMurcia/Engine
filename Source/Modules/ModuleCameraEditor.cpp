@@ -4,6 +4,7 @@
 #include "ModuleDebugDraw.h"
 #include "debugdraw.h"
 #include "MathAll.h"
+#include "Sphere.h"
 
 ModuleCameraEditor::ModuleCameraEditor()
 {}
@@ -74,10 +75,24 @@ void ModuleCameraEditor::SetOrientation(float3x3 up) {
     frustum.SetUp(up.MulDir(oldUp));
 }
 
-void ModuleCameraEditor::LookAt(float3x3 front) {
-    vec oldFront = frustum.Front().Normalized();
-    frustum.SetFront(front.MulDir(oldFront));
+void ModuleCameraEditor::LookAt(vec target) {
+
+    float3 direction = target - frustum.Pos();
+    direction = direction.Normalized();
+
+    vec y = vec::unitY;
+
+    Rotate(float3x3::LookAt(frustum.Front().Normalized(), direction, frustum.Up().Normalized(), y));
 }
+
+void ModuleCameraEditor::Rotate(float3x3 rotationMatrix) {
+    vec oldUp = frustum.Up().Normalized();
+    vec oldFront = frustum.Front().Normalized();
+
+    frustum.SetUp(rotationMatrix * oldUp);
+    frustum.SetFront(rotationMatrix * oldFront);
+}
+
 
 void ModuleCameraEditor::Rotate(float2 rotation) {
     float3x3 x = float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), rotation.x);
@@ -95,19 +110,20 @@ void ModuleCameraEditor::Rotate(float2 rotation) {
     }
 }
 
-void ModuleCameraEditor::FocusCamera(float3x3 positionToLook, float modelWidth, float modelHeight) {
-    //float distance = sphere.radius / sin(fov / 2);
-    //float3 eyePoint = sphere.centerPoint - distance * camera.frontVector;
+void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
+    Sphere boundingSphere = boundingBox.MinimalEnclosingSphere();
+    
+    float radius = boundingSphere.r;
 
-    LookAt(positionToLook);
-    float scaledBasis;
-    if (modelWidth >= modelHeight) {
-        scaledBasis = modelWidth / (2 * tan(frustum.HorizontalFov() / 2));
-    }
-    else {
-        scaledBasis = modelHeight / (2 * tan(frustum.VerticalFov() / 2));
-    }
-    //SetPos(frustum.Pos() + scaledBasis);
+    double fov = frustum.HorizontalFov();
+
+    double camDistance = radius / sin(fov / 2.0);
+
+    vec camDirection = frustum.Front().Normalized();
+
+    SetPos(boundingSphere.pos - (camDirection * camDistance));
+    LookAt(boundingSphere.pos);
+
 }
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {

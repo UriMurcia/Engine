@@ -144,6 +144,10 @@ update_status ModuleInput::Update()
 	else {
 		camMoveSpeed = CAM_SPEED;
 	}
+
+	if (state[SDL_SCANCODE_F]) {
+		App->cameraEditor->FocusCamera(*App->exercise->models3d[0]->boundingBox);
+	}
 	
 
     return UPDATE_CONTINUE;

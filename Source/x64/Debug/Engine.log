@@ -1,2 +1,5 @@
-﻿  Mesh.cpp
-  Engine.vcxproj -> C:\Users\oriolmc12\Downloads\Engine\Source\x64\Debug\Engine.exe
+﻿  ModuleCameraEditor.cpp
+D:\Master\cplusplus\Engine\Source\Modules\ModuleCameraEditor.cpp(124,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  ModuleInput.cpp
+  Generating Code...
+  Engine.vcxproj -> D:\Master\cplusplus\Engine\Source\x64\Debug\Engine.exe

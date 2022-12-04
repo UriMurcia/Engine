@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "assimp/scene.h"
 #include "glew.h"
+#include "MathAll.h"
 
 #include <vector>
 
@@ -15,7 +16,7 @@ public:
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
 	void CreateVAO();
-	void Draw(const std::vector<unsigned>& model_textures);
+	void Draw(const std::vector<unsigned>& model_textures, float3 position, float3 rotation, float scale);
 
 	GLuint ebo, vao, vbo, shaderProgram;
 	int num_indices, num_vertices;

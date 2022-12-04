@@ -3,7 +3,9 @@
 #include "assimp/postprocess.h"
 #include "assimp/cimport.h"
 #include "assimp/Importer.hpp"
+#include "assimp/mesh.h"
 #include "ModuleTexture.h"
+#include "ModuleCameraEditor.h"
 
 Model::Model()
 {
@@ -22,7 +24,7 @@ void Model::Load(const char* file_name)
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
-
+	
 		LoadMaterials(scene->mMaterials, scene->mNumMaterials, file_name);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}
@@ -49,14 +51,22 @@ void Model::LoadMaterials(aiMaterial** textures, int numMaterials, const char* f
 
 void Model::Update() {
 	for (int i = 0; i < meshes.size(); ++i) {
-		meshes[i]->Draw(materials);
+		meshes[i]->Draw(materials, position, rotation, scale);
 	}
 }
 
 
 void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 {
-		
+	numTriangles = 0;
+	numVertices = 0;
+
+
+	maxVertex.x = minVertex.x = meshObjects[0]->mVertices[0].x;
+	maxVertex.y = minVertex.y = meshObjects[0]->mVertices[0].y;
+	maxVertex.z = minVertex.z = meshObjects[0]->mVertices[0].z;
+
+
 	meshes.reserve(numMeshes);
 	for (int i = 0; i < numMeshes; ++i)
 	{
@@ -66,5 +76,33 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 		mesh->CreateVAO();
 		mesh->material_index = meshObjects[i]->mMaterialIndex;
 		meshes.push_back(mesh);
+
+		numTriangles += meshObjects[i]->mNumFaces;
+		numVertices += meshObjects[i]->mNumVertices;
+		for (int j = 0; j < meshObjects[i]->mNumVertices; j++) {
+			aiVector3D vertex = meshObjects[i]->mVertices[j];
+			if (vertex.x < minVertex.x) {
+				minVertex.x = vertex.x;
+			}
+			if (vertex.y < minVertex.y) {
+				minVertex.y = vertex.y;
+			}
+			if (vertex.z < minVertex.z) {
+				minVertex.z = vertex.z;
+			}
+			if (vertex.x > maxVertex.x) {
+				maxVertex.x = vertex.x;
+			}
+			if (vertex.y > maxVertex.y) {
+				maxVertex.y = vertex.y;
+			}
+			if (vertex.z > maxVertex.z) {
+				maxVertex.z = vertex.z;
+			}
+		}
 	}
+
+	boundingBox = new AABB(minVertex + position, maxVertex + position);
+	App->cameraEditor->FocusCamera(*boundingBox);
+
 }

@@ -4,7 +4,6 @@
 #include "ModuleRender.h"
 
 
-
 ModuleEditor::ModuleEditor()
 {
 }
@@ -52,12 +51,13 @@ update_status ModuleEditor::Update() {
     ImGui_ImplSDL2_NewFrame(App->window->window);
     ImGui::NewFrame();
 
-    ImGui::ShowDemoWindow(&show_demo_window);
+    //ImGui::ShowDemoWindow(&show_demo_window);
 
-    ShowAboutWindow();
-    ShowLogWindow();
+    //ShowAboutWindow();
+    //ShowLogWindow();
     ShowFPSGraph();
-    
+    ShowPropertiesWindow();
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -149,5 +149,37 @@ void ModuleEditor::ShowAboutWindow() {
         ImGui::Text("Engine License: UriM");
 
     }
+    ImGui::End();
+}
+
+void ModuleEditor::SetPropertiesWindow(const float3& position, const float& scale, const float3& rotation, const int& numTriangles, const int& numVertices) {
+    this->position = position;
+    this->scale = scale;
+    this->rotation = rotation;
+    this->numTriangles = numTriangles;
+    this->numVertices = numVertices;
+}
+
+void ModuleEditor::ShowPropertiesWindow() {
+    bool enabled;
+
+    std::string windowName = std::string("Properties");
+    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
+    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::TextColored(titleColor, "TRANSFORMATION");
+        ImGui::Text("Position: x = %f; y = %f; z = %f", position.x, position.y, position.z);
+        ImGui::Text("Scale: %f", scale);
+        ImGui::Text("Rotation: x = %f; y = %f; z = %f", rotation.x, rotation.y, rotation.z);
+
+        ImGui::Separator();
+        ImGui::TextColored(titleColor, "GEOMETRY");
+        ImGui::Text("Num Triangles: %i", numTriangles);
+        ImGui::Text("Num Vertices: %i", numVertices);
+
+        ImGui::Separator();
+        ImGui::TextColored(titleColor, "TEXTURE");
+    
+    }
+    
     ImGui::End();
 }

@@ -77,14 +77,14 @@ void Mesh::CreateVAO()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
 }
 
-void Mesh::Draw(const std::vector<unsigned>& model_textures)
+void Mesh::Draw(const std::vector<unsigned>& model_textures, float3 position, float3 rotation, float scale)
 {
 	shaderProgram = App->program->CreateProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
 	float4x4 view = App->cameraEditor->GetViewMatrix();
 	float4x4 proj = App->cameraEditor->GetProjectionMatrix();
-	float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-		float4x4::identity	,
-		float3(1.0f));
+	float4x4 model = float4x4::FromTRS(position,
+		float4x4::identity, //Apply rotation
+		float3(scale));
 
 	glUseProgram(shaderProgram);
 
