@@ -24,6 +24,7 @@ public:
 	void Rotate(float3x3 rotationMatrix);
 	void Rotate(float2 rotate);
 	void FocusCamera(AABB boundingBox);
+	void Orbit(float xOrbit, float yOrbit, vec posToOrbit);
 	float4x4 GetProjectionMatrix();
 	float4x4 GetViewMatrix();
 

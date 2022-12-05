@@ -74,24 +74,29 @@ update_status ModuleInput::Update()
 			case SDL_MOUSEMOTION:
 				if (mouseRClicked || mouseLClicked || mouseMidClicked) {
 					//SDL_SetRelativeMouseMode(SDL_TRUE);
-					if ((mouseLClicked || mouseMidClicked) && !state[SDL_SCANCODE_LALT]) {
-						//App->cameraEditor->Translate(vec(-camMoveSpeed * sdlEvent.motion.xrel, -camMoveSpeed * sdlEvent.motion.yrel, 0));
-					}
 					if (mouseRClicked && !mouseLClicked && !mouseMidClicked && !state[SDL_SCANCODE_LALT]) {
 						float rotateAmount = -camRotSpeed * (pi / 180);
-						App->cameraEditor->Rotate(float2(sdlEvent.motion.yrel * rotateAmount, 0.f));
-						App->cameraEditor->Rotate(float2(0.f, sdlEvent.motion.xrel * rotateAmount));
+						App->cameraEditor->Rotate(float2(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount));
 					}
-					/*if (state[SDL_SCANCODE_LALT] && mouseLClicked) {
-						App->cameraEditor->Rotate(float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), camRotSpeed * sdlEvent.motion.xrel));
-					}*/
-					if (state[SDL_SCANCODE_LALT] && mouseRClicked) {
+					if (state[SDL_SCANCODE_LALT] && mouseRClicked && !mouseLClicked) {
 						App->cameraEditor->Translate(vec(0, 0, camMoveSpeed * sdlEvent.motion.xrel));
+					}
+					if (state[SDL_SCANCODE_LALT] && mouseLClicked && !mouseRClicked) {
+						float rotateAmount = -camRotSpeed * (pi / 180);
+						//App->cameraEditor->Rotate(float2(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount));
+						//App->cameraEditor->FocusCamera(*App->exercise->models3d[0]->boundingBox);
+						App->cameraEditor->Orbit(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount, App->exercise->models3d[0]->position);
 					}
 				}
 				else {
 					//SDL_SetRelativeMouseMode(SDL_FALSE);
 				}
+				break;
+			case SDL_MOUSEWHEEL:
+				if (sdlEvent.wheel.y > 0) 
+					App->cameraEditor->Translate(vec(0, 0, camMoveSpeed * dt));
+				if (sdlEvent.wheel.y < 0) 
+					App->cameraEditor->Translate(vec(0, 0, -camMoveSpeed * dt));
 				break;
 			case SDL_DROPFILE:
 				droppedFile = sdlEvent.drop.file;
@@ -100,42 +105,42 @@ update_status ModuleInput::Update()
 				break;
         }
     }
-	
 
 
 	if (state[SDL_SCANCODE_ESCAPE]) {
 		return UPDATE_STOP;
 	}
-	if (state[SDL_SCANCODE_W]) {
+
+	if (state[SDL_SCANCODE_W] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(0.f, 0.f, camMoveSpeed * dt));
 	}
-	if (state[SDL_SCANCODE_S]) {
+	if (state[SDL_SCANCODE_S] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(0.f, 0.f, -camMoveSpeed * dt));
 	}
-	if (state[SDL_SCANCODE_A]) {
+	if (state[SDL_SCANCODE_A] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(-camMoveSpeed * dt, 0.f, 0.f));
 	}
-	if (state[SDL_SCANCODE_D]) {
+	if (state[SDL_SCANCODE_D] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(camMoveSpeed * dt, 0.f, 0.f));
 	}
-	if (state[SDL_SCANCODE_Q]) {
+	if (state[SDL_SCANCODE_Q] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(0.f, camMoveSpeed * dt, 0.f));
 	}
-	if (state[SDL_SCANCODE_E]) {
+	if (state[SDL_SCANCODE_E] && mouseRClicked) {
 		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed * dt, 0.f));
 	}
 
 	if (state[SDL_SCANCODE_UP]) {
-		App->cameraEditor->Rotate(float2(camRotSpeed, 0.f));
-	}
-	if (state[SDL_SCANCODE_DOWN]) {
-		App->cameraEditor->Rotate(float2(-camRotSpeed, 0.f));
-	}
-	if (state[SDL_SCANCODE_LEFT]) {
 		App->cameraEditor->Rotate(float2(0.f, camRotSpeed));
 	}
-	if (state[SDL_SCANCODE_RIGHT]) {
+	if (state[SDL_SCANCODE_DOWN]) {
 		App->cameraEditor->Rotate(float2(0.f, -camRotSpeed));
+	}
+	if (state[SDL_SCANCODE_LEFT]) {
+		App->cameraEditor->Rotate(float2(camRotSpeed, 0.f));
+	}
+	if (state[SDL_SCANCODE_RIGHT]) {
+		App->cameraEditor->Rotate(float2(-camRotSpeed, 0.f));
 	}
 
 	if (state[SDL_SCANCODE_LSHIFT]) {
@@ -148,6 +153,7 @@ update_status ModuleInput::Update()
 	if (state[SDL_SCANCODE_F]) {
 		App->cameraEditor->FocusCamera(*App->exercise->models3d[0]->boundingBox);
 	}
+	
 	
 
     return UPDATE_CONTINUE;

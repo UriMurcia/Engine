@@ -95,8 +95,8 @@ void ModuleCameraEditor::Rotate(float3x3 rotationMatrix) {
 
 
 void ModuleCameraEditor::Rotate(float2 rotation) {
-    float3x3 x = float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), rotation.x);
-    float3x3 y = float3x3(Cos(rotation.y), 0.0f, Sin(rotation.y), 0.0f, 1.0f, 0.0f, -Sin(rotation.y), 0.0f, Cos(rotation.y));
+    float3x3 x = float3x3(Cos(rotation.x), 0.0f, Sin(rotation.x), 0.0f, 1.0f, 0.0f, -Sin(rotation.x), 0.0f, Cos(rotation.x));
+    float3x3 y = float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), rotation.y);
     float3x3 xy = x * y;
 
     vec oldUp = frustum.Up().Normalized();
@@ -124,6 +124,14 @@ void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
     SetPos(boundingSphere.pos - (camDirection * camDistance));
     LookAt(boundingSphere.pos);
 
+}
+
+
+void ModuleCameraEditor::Orbit(float xOrbit, float yOrbit, vec posToOrbit) {
+    Rotate(float2(xOrbit, yOrbit));
+    
+    
+    LookAt(posToOrbit);
 }
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {
