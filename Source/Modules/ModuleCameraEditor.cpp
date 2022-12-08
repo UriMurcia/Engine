@@ -58,11 +58,11 @@ void ModuleCameraEditor::SetPlaneDistances(float nearDistance, float farDistance
     frustum.SetViewPlaneDistances(nearDistance, farDistance);
 }
 
-void ModuleCameraEditor::SetPos(float3 pos) {
+void ModuleCameraEditor::SetPos(const float3& pos) {
     frustum.SetPos(pos);
 }
 
-void ModuleCameraEditor::Translate(vec vect) {
+void ModuleCameraEditor::Translate(const vec& vect) {
     vec z = frustum.Front().Normalized() * vect.z;
     vec x = frustum.WorldRight().Normalized() * vect.x;
     vec y = vec(0, -vect.y, 0);
@@ -73,12 +73,12 @@ void ModuleCameraEditor::Translate(vec vect) {
     frustum.SetPos((translationMat * float4(frustum.Pos(), 1.0f)).xyz());
 }
 
-void ModuleCameraEditor::SetOrientation(float3x3 up) {
+void ModuleCameraEditor::SetOrientation(const float3x3& up) {
     vec oldUp = frustum.Up().Normalized();
     frustum.SetUp(up.MulDir(oldUp));
 }
 
-void ModuleCameraEditor::LookAt(vec target) {
+void ModuleCameraEditor::LookAt(const vec& target) {
 
     float3 direction = target - frustum.Pos();
     direction = direction.Normalized();
@@ -89,7 +89,7 @@ void ModuleCameraEditor::LookAt(vec target) {
     Rotate(rotationMat);
 }
 
-void ModuleCameraEditor::Rotate(float3x3 rotationMatrix) {
+void ModuleCameraEditor::Rotate(const float3x3& rotationMatrix) {
     vec oldUp = frustum.Up().Normalized();
     vec oldFront = frustum.Front().Normalized();
 
@@ -98,7 +98,7 @@ void ModuleCameraEditor::Rotate(float3x3 rotationMatrix) {
 }
 
 
-void ModuleCameraEditor::Rotate(float2 rotation) {
+void ModuleCameraEditor::Rotate(const float2& rotation) {
     float3x3 x = float3x3(Cos(rotation.x), 0.0f, Sin(rotation.x), 0.0f, 1.0f, 0.0f, -Sin(rotation.x), 0.0f, Cos(rotation.x));
     float3x3 y = float3x3::RotateAxisAngle(App->cameraEditor->frustum.WorldRight().Normalized(), rotation.y);
     float3x3 xy = x * y;
@@ -114,12 +114,12 @@ void ModuleCameraEditor::Rotate(float2 rotation) {
     }
 }
 
-void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
+void ModuleCameraEditor::FocusCamera(const AABB& boundingBox) {
     Sphere boundingSphere = boundingBox.MinimalEnclosingSphere();
 
     float radius = boundingSphere.r;
-    double fov = frustum.HorizontalFov();
-    double camDistance = radius / sin(fov / 2.0);
+    float fov = frustum.HorizontalFov();
+    float camDistance = radius / sin(fov / 2.0);
     vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
     SetPos(boundingSphere.pos - (camDirection * camDistance));
@@ -128,7 +128,7 @@ void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
 }
 
 
-void ModuleCameraEditor::Orbit(float xOrbit, float yOrbit, vec posToOrbit) {
+void ModuleCameraEditor::Orbit(float xOrbit, float yOrbit, const vec& posToOrbit) {
 
     Rotate(float2(xOrbit, yOrbit));
     

@@ -19,7 +19,6 @@ public:
 
 	bool Init();
 	update_status Update();
-	update_status PostUpdate();
 	void LoadModel3D(const char* file_name);
 
 	std::vector<Model*> models3d;

@@ -23,7 +23,7 @@ public:
 
 	std::vector<GLuint> materials;
 	std::vector<Mesh*> meshes;
-	//Mesh mesh;
+
 	float3 position = float3(2.0f, 0.f, 0.f);
 	float scale = 1.0f;
 	float3 rotation = float3(0.f, 0.f, 0.f);

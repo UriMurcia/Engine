@@ -33,9 +33,9 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
 
-	bool fullScreen = false;
-	bool resizableScreen = false;
-	bool borderlessScreen = false;
+	bool fullScreen = FULLSCREEN;
+	bool resizableScreen = RESIZABLE_SCREEN;
+	bool borderlessScreen = BORDERLESS_SCREEN;
 };
 
 #endif // __ModuleWindow_H__

@@ -33,7 +33,7 @@ void EditorConfiguration::ShowConfigurationWindow() {
     if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         if (ImGui::CollapsingHeader("FPS Graph"))
         {
-            ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
+            ImGui::PlotHistogram("##framerate", &fpsLog[0], (int)fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
         }
 
 
@@ -85,9 +85,10 @@ void EditorConfiguration::ShowConfigurationWindow() {
         }
 
 
+
         if (ImGui::CollapsingHeader("Information Output"))
         {
-            ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
+            ImGui::PlotHistogram("##framerate", &fpsLog[0], (int)fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
             ImGui::Text("SDL version: %s", App->hardware->sdlVersion);
             ImGui::Text("GLEW version: %s", App->hardware->glewVersion);
 
@@ -101,6 +102,8 @@ void EditorConfiguration::ShowConfigurationWindow() {
             ImGui::Text("GPU Vendor: %s", App->hardware->gpuVendor);
             ImGui::Text("GPU Renderer: %s", App->hardware->gpuRenderer);
             ImGui::Text("GPU OpenGL Version: %s", App->hardware->gpuOpenglVersion);
+
+            ImGui::Separator();
 
             ImGui::Text("VRAM total: %.1f Mb", App->hardware->totalRam);
             ImGui::Text("VRAM used: %.1f Mb", App->hardware->ramUsed);

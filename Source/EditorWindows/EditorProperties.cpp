@@ -29,9 +29,9 @@ void EditorProperties::ShowPropertiesWindow() {
     ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::TextColored(App->editor->titleColor, "TRANSFORMATION");
-        ImGui::Text("Position: x = %f; y = %f; z = %f", model3Dselected->position.x, model3Dselected->position.y, model3Dselected->position.z);
-        ImGui::Text("Scale: %f", model3Dselected->scale);
-        ImGui::Text("Rotation: x = %f; y = %f; z = %f", model3Dselected->rotation.x, model3Dselected->rotation.y, model3Dselected->rotation.z);
+        ImGui::Text("Position: x = %.1f; y = %.1f; z = %.1f", model3Dselected->position.x, model3Dselected->position.y, model3Dselected->position.z);
+        ImGui::Text("Scale: %.1f", model3Dselected->scale);
+        ImGui::Text("Rotation: x = %.1f; y = %.1f; z = %.1f", model3Dselected->rotation.x, model3Dselected->rotation.y, model3Dselected->rotation.z);
 
         ImGui::Separator();
         ImGui::TextColored(App->editor->titleColor, "GEOMETRY");

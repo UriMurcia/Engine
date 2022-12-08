@@ -43,7 +43,6 @@ update_status ModuleEditor::Update() {
     ImGui_ImplSDL2_NewFrame(App->window->window);
     ImGui::NewFrame();
 
-    //ImGui::ShowDemoWindow(&show_demo_window);
 
     if (editorWindowsEnabled) {
         if (editorAbout->aboutEnabled)

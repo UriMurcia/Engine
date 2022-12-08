@@ -1,4 +1,1 @@
-﻿  Model.cpp
-F:\Master\Programacio c plusplus\Engine\Source\Model.cpp(46,25): warning C4018: '<': signed/unsigned mismatch
-F:\Master\Programacio c plusplus\Engine\Source\Model.cpp(90,21): warning C4018: '<': signed/unsigned mismatch
-  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe
+﻿  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

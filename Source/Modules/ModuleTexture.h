@@ -12,14 +12,14 @@ public:
 	ModuleTexture();
 	~ModuleTexture();
 
-	GLuint LoadTexture(std::string fileDir, const char* fullTexturePath);
+	GLuint LoadTexture(const std::string& fileDir, const char* fullTexturePath);
 
 private:
 	DirectX::TexMetadata md;
 	DirectX::ScratchImage img;
-	int format;
-	int internalFormat;
-	int type; 
+	int format = 0;
+	int internalFormat = 0;
+	int type = 0;
 	std::wstring filename;
 
 	void FillImageFormat();

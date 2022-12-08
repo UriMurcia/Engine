@@ -51,7 +51,7 @@ bool ModuleTexture::LoadImageFromPath(std::string fileDir) {
 	return true;
 }
 
-GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePath) {
+GLuint ModuleTexture::LoadTexture(const std::string& fileDir, const char* fullTexturePath) {
 
 	std::string path = "Textures/";
 
@@ -119,7 +119,7 @@ GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePa
 
 	FillImageFormat();
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, md.width, md.height, 0, format, type, image.GetPixels());
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, (GLsizei)md.width, (GLsizei)md.height, 0, format, type, image.GetPixels());
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 

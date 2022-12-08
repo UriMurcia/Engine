@@ -17,6 +17,9 @@ Model::~Model()
 	for (int i = 0; i < materials.size(); i++) {
 		glDeleteTextures(1, &materials[i]);
 	}
+	for (int i = 0; i < meshes.size(); i++) {
+		delete meshes[i];
+	}
 	boundingBox = new AABB;
 	delete boundingBox;
 	boundingBox = NULL;
@@ -43,7 +46,7 @@ void Model::LoadMaterials(aiMaterial** textures, int numMaterials, const char* f
 	aiString file;
 	
 	materials.reserve(numMaterials);
-	for (unsigned i = 0; i < numMaterials; ++i)
+	for (int i = 0; i < numMaterials; ++i)
 	{
 		if (textures[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
@@ -87,7 +90,7 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 
 		numTriangles += meshObjects[i]->mNumFaces;
 		numVertices += meshObjects[i]->mNumVertices;
-		for (int j = 0; j < meshObjects[i]->mNumVertices; j++) {
+		for (int j = 0; j < (int)meshObjects[i]->mNumVertices; j++) {
 			aiVector3D vertex = meshObjects[i]->mVertices[j];
 			if (vertex.x < minVertex.x) {
 				minVertex.x = vertex.x;

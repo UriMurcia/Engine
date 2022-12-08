@@ -17,6 +17,9 @@ ModuleRenderExercise::ModuleRenderExercise()
 // Destructor
 ModuleRenderExercise::~ModuleRenderExercise()
 {
+    for (int i = 0; i < models3d.size(); i++) {
+        delete models3d[i];
+    }
 }
 
 bool ModuleRenderExercise::Init() {
@@ -33,13 +36,6 @@ update_status ModuleRenderExercise::Update() {
         models3d[i]->Update();
     }
     
-    return UPDATE_CONTINUE;
-}
-
-update_status ModuleRenderExercise::PostUpdate() {
-
-
-
     return UPDATE_CONTINUE;
 }
 

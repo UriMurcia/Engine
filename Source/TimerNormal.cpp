@@ -20,7 +20,6 @@ int TimerNormal::Read() {
 	if (!stoped) {
 		dt = SDL_GetTicks() - startTime;
 	}
-	//LOG_ENGINE("Time: %i", dt);
 	return dt;
 }
 

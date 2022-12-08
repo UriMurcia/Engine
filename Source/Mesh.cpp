@@ -8,7 +8,6 @@
 
 Mesh::Mesh()
 {
-
 }
 
 // Destructor

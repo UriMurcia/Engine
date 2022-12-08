@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Assimp\include;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\EditorWindows;..\Source;.\Modules;.\Assimp\include;.\DirectXTex-oct2022;.\DirectXTex-oct2022\DirectXTex;.\MathGeoLib_Source\Time;.\MathGeoLib_Source\Math;.\MathGeoLib_Source\Geometry;.\MathGeoLib_Source\Algorithm;.\MathGeoLib_Source\Algorithm\Random;.\MathGeoLib_Source;.\ImGui\Include;.\SDL\Include;.\glew-2.1.0\include\GL</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -147,8 +147,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\Assimp\lib\Release;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc142-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\Assimp\lib\Release;.\DirectXTex-oct2022\DirectXTex\Bin\Desktop_2019_Win10\x64\Release;.\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32.lib;opengl32.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
