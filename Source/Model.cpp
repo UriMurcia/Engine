@@ -17,6 +17,9 @@ Model::~Model()
 	for (int i = 0; i < materials.size(); i++) {
 		glDeleteTextures(1, &materials[i]);
 	}
+	boundingBox = new AABB;
+	delete boundingBox;
+	boundingBox = NULL;
 }
 
 void Model::Load(const char* file_name)
@@ -71,10 +74,13 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 	for (int i = 0; i < numMeshes; ++i)
 	{
 		Mesh* mesh = new Mesh();
+		mesh->numFaces = meshObjects[i]->mNumFaces;
 		mesh->LoadVBO(meshObjects[i]);
 		mesh->LoadEBO(meshObjects[i]);
 		mesh->CreateVAO();
-		mesh->material_index = meshObjects[i]->mMaterialIndex;
+		mesh->materialIndex = meshObjects[i]->mMaterialIndex;
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &mesh->textureWidth);
+		glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &mesh->textureHeight);
 		meshes.push_back(mesh);
 
 		numTriangles += meshObjects[i]->mNumFaces;
@@ -102,7 +108,8 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 		}
 	}
 
-	boundingBox = new AABB(minVertex + position, maxVertex + position);
+	boundingBox->minPoint = minVertex + position;
+	boundingBox->maxPoint = maxVertex + position;
 	App->cameraEditor->FocusCamera(*boundingBox);
 
 }

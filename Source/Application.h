@@ -15,6 +15,7 @@ class ModuleDebugDraw;
 class ModuleCameraEditor;
 class ModuleProgram;
 class ModuleTexture;
+class ModuleHardware;
 
 class Application
 {
@@ -37,10 +38,11 @@ public:
 	ModuleCameraEditor* cameraEditor = nullptr;
 	ModuleProgram* program = nullptr;
 	ModuleTexture* textures = nullptr;
+	ModuleHardware* hardware = nullptr;
 
 	TimerNormal* timer = new TimerNormal();
-	int frameStart;
-	int frameDuration;
+	int frameStart = 0;
+	int frameDuration = 0;
 	int dt = 0;
 
 private:

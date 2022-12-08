@@ -20,8 +20,9 @@ bool ModuleCameraEditor::Init() {
     frustum.SetFront(-float3::unitZ);
     frustum.SetUp(float3::unitY);
     frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-    frustum.SetViewPlaneDistances(0.1f, 100.0f);
-    frustum.SetHorizontalFovAndAspectRatio((pi / 180) * 90.0f, (float)screenWidth / (float)screenHeight);
+    frustum.SetViewPlaneDistances(0.1f, farPlaneDistance);
+    frustum.SetHorizontalFovAndAspectRatio((pi / 180) * FOV, (float)screenWidth / (float)screenHeight);
+    
 
     projection = frustum.ProjectionMatrix();
 
@@ -32,19 +33,20 @@ bool ModuleCameraEditor::Init() {
 
 update_status ModuleCameraEditor::Update() {
     SDL_GetWindowSize(App->window->window, &screenWidth, &screenHeight);
-    frustum.SetHorizontalFovAndAspectRatio((pi / 180) * 90.0f, (float)screenWidth / (float)screenHeight);
+    frustum.SetHorizontalFovAndAspectRatio((pi / 180) * FOV, (float)screenWidth / (float)screenHeight);
     projection = frustum.ProjectionMatrix();
     view = frustum.ViewMatrix();
 
     dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
     dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::White);
     App->debugDraw->Draw(view, projection, screenWidth, screenHeight);
+    
     return UPDATE_CONTINUE;
 }
 
 
 void ModuleCameraEditor::SetFOV(float FOV) {
-    frustum.SetHorizontalFovAndAspectRatio((pi / 180) * FOV, frustum.AspectRatio());
+    this->FOV = FOV;
 }
 
 void ModuleCameraEditor::SetAspectRatio(int screenWidth, int screenHeight) {
@@ -52,6 +54,7 @@ void ModuleCameraEditor::SetAspectRatio(int screenWidth, int screenHeight) {
 }
 
 void ModuleCameraEditor::SetPlaneDistances(float nearDistance, float farDistance) {
+    farPlaneDistance = farDistance;
     frustum.SetViewPlaneDistances(nearDistance, farDistance);
 }
 
@@ -82,7 +85,8 @@ void ModuleCameraEditor::LookAt(vec target) {
 
     vec y = vec::unitY;
 
-    Rotate(float3x3::LookAt(frustum.Front().Normalized(), direction, frustum.Up().Normalized(), y));
+    float3x3 rotationMat = float3x3::LookAt(frustum.Front().Normalized(), direction, frustum.Up().Normalized(), y);
+    Rotate(rotationMat);
 }
 
 void ModuleCameraEditor::Rotate(float3x3 rotationMatrix) {
@@ -112,14 +116,11 @@ void ModuleCameraEditor::Rotate(float2 rotation) {
 
 void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
     Sphere boundingSphere = boundingBox.MinimalEnclosingSphere();
-    
+
     float radius = boundingSphere.r;
-
     double fov = frustum.HorizontalFov();
-
     double camDistance = radius / sin(fov / 2.0);
-
-    vec camDirection = frustum.Front().Normalized();
+    vec camDirection = (boundingSphere.pos - frustum.Pos()).Normalized();
 
     SetPos(boundingSphere.pos - (camDirection * camDistance));
     LookAt(boundingSphere.pos);
@@ -128,10 +129,13 @@ void ModuleCameraEditor::FocusCamera(AABB boundingBox) {
 
 
 void ModuleCameraEditor::Orbit(float xOrbit, float yOrbit, vec posToOrbit) {
+
     Rotate(float2(xOrbit, yOrbit));
     
-    
-    LookAt(posToOrbit);
+    vec camDirection = frustum.Front().Normalized();
+    float camDistance = posToOrbit.Distance(frustum.Pos());
+
+    SetPos(posToOrbit - (camDirection * camDistance));
 }
 
 float4x4 ModuleCameraEditor::GetProjectionMatrix() {

@@ -15,11 +15,16 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
+	update_status Update();
 	// Called before quitting
 	bool Init();
 
 	// Called before quitting
 	bool CleanUp();
+
+	void SetWindowFullScreen();
+	void SetWindowResizable();
+	void SetWindowBorderless();
 
 public:
 	//The window we'll be rendering to
@@ -27,6 +32,10 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
+
+	bool fullScreen = false;
+	bool resizableScreen = false;
+	bool borderlessScreen = false;
 };
 
 #endif // __ModuleWindow_H__

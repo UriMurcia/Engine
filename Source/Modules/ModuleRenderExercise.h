@@ -22,10 +22,5 @@ public:
 	update_status PostUpdate();
 	void LoadModel3D(const char* file_name);
 
-	ModuleProgram* moduleProgram = nullptr;
-	ModuleTexture* moduleTexture = nullptr;
-	GLuint VBO, shaderProgram;
-	GLuint texture;
-	float4x4 model, view, projection;
 	std::vector<Model*> models3d;
 };

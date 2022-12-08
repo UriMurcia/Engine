@@ -14,6 +14,7 @@ public:
 
 	GLuint LoadTexture(std::string fileDir, const char* fullTexturePath);
 
+private:
 	DirectX::TexMetadata md;
 	DirectX::ScratchImage img;
 	int format;
@@ -21,7 +22,6 @@ public:
 	int type; 
 	std::wstring filename;
 
-private:
 	void FillImageFormat();
 	bool LoadImageFromPath(std::string fileDir);
 

@@ -103,7 +103,6 @@ GLuint ModuleTexture::LoadTexture(std::string fileDir, const char* fullTexturePa
 			}
 		}
 	}
-
 	DirectX::ScratchImage image;
 	DirectX::FlipRotate(img.GetImages(), 1, img.GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, image);
 	

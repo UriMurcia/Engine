@@ -29,8 +29,8 @@ public:
 	float3 rotation = float3(0.f, 0.f, 0.f);
 	int numTriangles = 0;
 	int numVertices = 0;
-	vec minVertex;
-	vec maxVertex;
-	AABB* boundingBox;
+	vec minVertex = vec(0.f, 0.f, 0.f);
+	vec maxVertex = vec(0.f, 0.f, 0.f);
+	AABB* boundingBox = new AABB();
 };
 

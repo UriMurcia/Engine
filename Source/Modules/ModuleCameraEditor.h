@@ -30,6 +30,10 @@ public:
 
 
 	Frustum frustum;
+	float FOV = 90.f;
+	float farPlaneDistance = 100.f;
+
+private:
 	float4x4 view, projection;
 	int screenWidth = NULL, screenHeight = NULL;
 };

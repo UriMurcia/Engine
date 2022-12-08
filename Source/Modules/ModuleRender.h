@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "MathAll.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -18,8 +19,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
-	//inline void* getContext() { return this->context; }
-
 
 	void* context = nullptr;
+	vec backgroundColor = vec(0.1f, 0.1f, 0.1f);
 };

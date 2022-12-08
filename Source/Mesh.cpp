@@ -44,7 +44,7 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 		uvs[i] = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 	}
 	glUnmapBuffer(GL_ARRAY_BUFFER);
-	num_vertices = mesh->mNumVertices;
+	numVertices = mesh->mNumVertices;
 }
 
 void Mesh::LoadEBO(const aiMesh* mesh)
@@ -62,7 +62,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 		*(indices++) = mesh->mFaces[i].mIndices[2];
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-	num_indices = mesh->mNumFaces * 3;
+	numIndices = mesh->mNumFaces * 3;
 }
 
 void Mesh::CreateVAO()
@@ -74,7 +74,7 @@ void Mesh::CreateVAO()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * numVertices));
 }
 
 void Mesh::Draw(const std::vector<unsigned>& model_textures, float3 position, float3 rotation, float scale)
@@ -93,10 +93,10 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures, float3 position, fl
 	glUniformMatrix4fv(0, 1, GL_TRUE, &proj[0][0]);
 
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
+	glBindTexture(GL_TEXTURE_2D, model_textures[materialIndex]);
 	glUniform1i(glGetUniformLocation(shaderProgram, "diffuse"), 0);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
 }

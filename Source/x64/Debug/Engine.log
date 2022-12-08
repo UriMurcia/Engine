@@ -1,11 +1,2 @@
-﻿  Application.cpp
-  Mesh.cpp
-  Model.cpp
-D:\Master\cplusplus\Engine\Source\Model.cpp(43,25): warning C4018: '<': signed/unsigned mismatch
-D:\Master\cplusplus\Engine\Source\Model.cpp(82,21): warning C4018: '<': signed/unsigned mismatch
-  ModuleCameraEditor.cpp
-D:\Master\cplusplus\Engine\Source\Modules\ModuleCameraEditor.cpp(124,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  ModuleInput.cpp
-  ModuleRenderExercise.cpp
-  Generating Code...
-  Engine.vcxproj -> D:\Master\cplusplus\Engine\Source\x64\Debug\Engine.exe
+﻿  ModuleInput.cpp
+  Engine.vcxproj -> F:\Master\Programacio c plusplus\Engine\Source\x64\Debug\Engine.exe

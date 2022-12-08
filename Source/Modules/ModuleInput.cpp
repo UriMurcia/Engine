@@ -7,9 +7,8 @@
 #include "ModuleCameraEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderExercise.h"
+#include "ModuleEditor.h"
 
-#define CAM_SPEED 0.006f
-#define FAST_CAM_SPEED CAM_SPEED * 2.0f
 
 ModuleInput::ModuleInput()
 {}
@@ -37,12 +36,17 @@ bool ModuleInput::Init()
 // Called every draw update
 update_status ModuleInput::Update()
 {
-	float dt = (float)App->dt;
-
 	char* droppedFile;
 
     SDL_Event sdlEvent;
 	const Uint8* state = SDL_GetKeyboardState(NULL);
+
+	float dt = (float)App->dt;
+
+	float finalCamVelocity = dt * camMoveSpeed;
+	if (state[SDL_SCANCODE_LSHIFT])
+		finalCamVelocity *= 2;
+
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
@@ -56,12 +60,14 @@ update_status ModuleInput::Update()
                     App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
-					mouseRClicked = true;
-				if (sdlEvent.button.button == SDL_BUTTON_LEFT)
-					mouseLClicked = true;
-				if (sdlEvent.button.button == SDL_BUTTON_MIDDLE)
-					mouseMidClicked = true;
+				if (!App->editor->editorWindowsFocused){
+					if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
+						mouseRClicked = true;
+					if (sdlEvent.button.button == SDL_BUTTON_LEFT)
+						mouseLClicked = true;
+					if (sdlEvent.button.button == SDL_BUTTON_MIDDLE)
+						mouseMidClicked = true;
+				}
 				break;
 			case SDL_MOUSEBUTTONUP:
 				if (sdlEvent.button.button == SDL_BUTTON_RIGHT)
@@ -73,32 +79,33 @@ update_status ModuleInput::Update()
 				break;
 			case SDL_MOUSEMOTION:
 				if (mouseRClicked || mouseLClicked || mouseMidClicked) {
-					//SDL_SetRelativeMouseMode(SDL_TRUE);
+					//Rotate camera with RClick
 					if (mouseRClicked && !mouseLClicked && !mouseMidClicked && !state[SDL_SCANCODE_LALT]) {
-						float rotateAmount = -camRotSpeed * (pi / 180);
+						float rotateAmount = -camRotSpeed * dt * (pi / 180);
 						App->cameraEditor->Rotate(float2(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount));
 					}
+					//Zoom camera with Alt+RClick
 					if (state[SDL_SCANCODE_LALT] && mouseRClicked && !mouseLClicked) {
-						App->cameraEditor->Translate(vec(0, 0, camMoveSpeed * sdlEvent.motion.xrel));
+						App->cameraEditor->Translate(vec(0, 0, finalCamVelocity * sdlEvent.motion.xrel));
 					}
+					//Orbit camera around object with Alt+LClick
 					if (state[SDL_SCANCODE_LALT] && mouseLClicked && !mouseRClicked) {
-						float rotateAmount = -camRotSpeed * (pi / 180);
-						//App->cameraEditor->Rotate(float2(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount));
-						//App->cameraEditor->FocusCamera(*App->exercise->models3d[0]->boundingBox);
+						float rotateAmount = -camRotSpeed * dt * (pi / 180);
 						App->cameraEditor->Orbit(sdlEvent.motion.xrel * rotateAmount, sdlEvent.motion.yrel * rotateAmount, App->exercise->models3d[0]->position);
 					}
 				}
-				else {
-					//SDL_SetRelativeMouseMode(SDL_FALSE);
-				}
 				break;
 			case SDL_MOUSEWHEEL:
-				if (sdlEvent.wheel.y > 0) 
-					App->cameraEditor->Translate(vec(0, 0, camMoveSpeed * dt));
-				if (sdlEvent.wheel.y < 0) 
-					App->cameraEditor->Translate(vec(0, 0, -camMoveSpeed * dt));
+				//Zoom camera with Mouse Wheel
+				if (!App->editor->editorWindowsFocused) {
+					if (sdlEvent.wheel.y > 0)
+						App->cameraEditor->Translate(vec(0, 0, zoomSpeed * dt));
+					if (sdlEvent.wheel.y < 0)
+						App->cameraEditor->Translate(vec(0, 0, -zoomSpeed * dt));
+				}
 				break;
 			case SDL_DROPFILE:
+				//Load 3D Models (.fbx) Dropped on the screen
 				droppedFile = sdlEvent.drop.file;
 				App->exercise->LoadModel3D(droppedFile);
 				SDL_free(droppedFile);
@@ -106,55 +113,49 @@ update_status ModuleInput::Update()
         }
     }
 
-
-	if (state[SDL_SCANCODE_ESCAPE]) {
-		return UPDATE_STOP;
-	}
-
+	//Move camera
 	if (state[SDL_SCANCODE_W] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(0.f, 0.f, camMoveSpeed * dt));
+		App->cameraEditor->Translate(vec(0.f, 0.f, finalCamVelocity));
 	}
 	if (state[SDL_SCANCODE_S] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(0.f, 0.f, -camMoveSpeed * dt));
+		App->cameraEditor->Translate(vec(0.f, 0.f, -finalCamVelocity));
 	}
 	if (state[SDL_SCANCODE_A] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(-camMoveSpeed * dt, 0.f, 0.f));
+		App->cameraEditor->Translate(vec(-finalCamVelocity, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_D] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(camMoveSpeed * dt, 0.f, 0.f));
+		App->cameraEditor->Translate(vec(finalCamVelocity, 0.f, 0.f));
 	}
 	if (state[SDL_SCANCODE_Q] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(0.f, camMoveSpeed * dt, 0.f));
+		App->cameraEditor->Translate(vec(0.f, finalCamVelocity, 0.f));
 	}
 	if (state[SDL_SCANCODE_E] && mouseRClicked) {
-		App->cameraEditor->Translate(vec(0.f, -camMoveSpeed * dt, 0.f));
+		App->cameraEditor->Translate(vec(0.f, -finalCamVelocity, 0.f));
 	}
 
+	//Rotate camera
 	if (state[SDL_SCANCODE_UP]) {
-		App->cameraEditor->Rotate(float2(0.f, camRotSpeed));
+		App->cameraEditor->Rotate(float2(0.f, camRotSpeed * dt));
 	}
 	if (state[SDL_SCANCODE_DOWN]) {
-		App->cameraEditor->Rotate(float2(0.f, -camRotSpeed));
+		App->cameraEditor->Rotate(float2(0.f, -camRotSpeed * dt));
 	}
 	if (state[SDL_SCANCODE_LEFT]) {
-		App->cameraEditor->Rotate(float2(camRotSpeed, 0.f));
+		App->cameraEditor->Rotate(float2(camRotSpeed * dt, 0.f));
 	}
 	if (state[SDL_SCANCODE_RIGHT]) {
-		App->cameraEditor->Rotate(float2(-camRotSpeed, 0.f));
+		App->cameraEditor->Rotate(float2(-camRotSpeed * dt, 0.f));
 	}
 
-	if (state[SDL_SCANCODE_LSHIFT]) {
-		camMoveSpeed = FAST_CAM_SPEED;
-	}
-	else {
-		camMoveSpeed = CAM_SPEED;
-	}
-
+	//Focus object
 	if (state[SDL_SCANCODE_F]) {
 		App->cameraEditor->FocusCamera(*App->exercise->models3d[0]->boundingBox);
 	}
-	
-	
+
+	//Quit
+	if (state[SDL_SCANCODE_ESCAPE]) {
+		return UPDATE_STOP;
+	}
 
     return UPDATE_CONTINUE;
 }

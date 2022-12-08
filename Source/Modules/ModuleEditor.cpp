@@ -3,13 +3,17 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 
-
 ModuleEditor::ModuleEditor()
 {
 }
 
 ModuleEditor::~ModuleEditor()
-{}
+{
+    delete editorAbout;
+    delete editorLog;
+    delete editorProperties;
+    delete editorConfiguration;
+}
 
 bool ModuleEditor::Init() {
     ImGui::CreateContext();
@@ -18,18 +22,6 @@ bool ModuleEditor::Init() {
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-    /*io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-    io.ConfigWindowsMoveFromTitleBarOnly = true;
-
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-        io.ConfigViewportsNoAutoMerge = false;
-        io.ConfigViewportsNoTaskBarIcon = true;
-    }
-
-    if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
-        io.ConfigDockingTransparentPayload = true;
-    }*/
 
     ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
     ImGui_ImplOpenGL3_Init("#version 130");
@@ -46,17 +38,22 @@ update_status ModuleEditor::PreUpdate() {
 
 
 update_status ModuleEditor::Update() {
-
+    editorWindowsFocused = false;
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(App->window->window);
     ImGui::NewFrame();
 
     //ImGui::ShowDemoWindow(&show_demo_window);
 
-    //ShowAboutWindow();
-    //ShowLogWindow();
-    ShowFPSGraph();
-    ShowPropertiesWindow();
+    if (editorWindowsEnabled) {
+        if (editorAbout->aboutEnabled)
+            editorAbout->ShowAboutWindow();
+
+        editorLog->ShowLogWindow();
+        editorProperties->ShowPropertiesWindow();
+        editorConfiguration->ShowConfigurationWindow();
+    }
+    ShowMenu();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -65,8 +62,12 @@ update_status ModuleEditor::Update() {
     ImGui::RenderPlatformWindowsDefault();
     SDL_GL_MakeCurrent(App->window->window, App->renderer->context);
 
-    
-    return UPDATE_CONTINUE;
+    if (quit) {
+        return UPDATE_STOP;
+    }
+    else {
+        return UPDATE_CONTINUE;
+    }
 }
 
 update_status ModuleEditor::PostUpdate() {
@@ -83,103 +84,26 @@ bool ModuleEditor::CleanUp() {
 }
 
 
-void ModuleEditor::ShowFPSGraph() {
-    float dt = 1000.0f / (float)App->dt;
-    
-    if (fpsLog.size() == 100) {
-        fpsLog.erase(fpsLog.begin());
-    }
+void ModuleEditor::ShowMenu() {
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("Options")) {
+            if (ImGui::MenuItem("Quit")) {
+                quit = true;
+            }
+            if (ImGui::MenuItem("Github")) {
+                HWND handle = NULL;
+                ShellExecute(handle, NULL, "https://github.com/UriMurcia/Engine", NULL, NULL, SW_SHOWNORMAL);
+            }
+            if (ImGui::MenuItem("About", NULL, &editorAbout->aboutEnabled)) {
 
-    fpsLog.push_back(floor(dt));
+            }
+            if (ImGui::MenuItem("Editor Windows", NULL, &editorWindowsEnabled)) {
 
-    bool enabled;
+            }
 
-    std::string windowName = std::string("Framerate");
-    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, "Framerate", 0.0f, 100.0f, ImVec2(310, 100));
-    }
-    ImGui::End();
-}
-
-
-void ModuleEditor::AddTextToLog(char *const text) {
-    textsLog.push_back(text);
-}
-
-void ModuleEditor::ShowLogWindow() {
-    bool enabled;
-
-    std::string windowName = std::string("Log");
-    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::Text("LOG_ENGINE:                                                   ");
-        ImGui::Separator();
-        
-        for (int i = 0; i < textsLog.size(); i++)
-        {
-            ImGui::Text(textsLog[i].c_str());
+            ImGui::EndMenu();
         }
+        ImGui::EndMainMenuBar();
     }
-    
-    ImGui::End();
-}
-
-void ModuleEditor::ShowAboutWindow() {
-    bool enabled;
-
-    std::string windowName = std::string("About");
-    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::Text("Creative Engine");
-        ImGui::Separator();
-        ImGui::Text("This engine has been developed for the UPC Master in Advanced Programming for AAA Videogames");
-        ImGui::Text("Author: Oriol Murcia Catalan");
-
-        ImGui::Separator();
-
-        ImVec2 sizeLibraries = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 4);
-        ImGui::BeginChildFrame(ImGui::GetID("libraries"), sizeLibraries);
-        ImGui::Text("Library 1: ");
-        ImGui::Text("Library 2: ");
-        ImGui::EndChildFrame();
-
-        ImGui::Separator();
-
-        ImGui::Text("Engine License: UriM");
-
-    }
-    ImGui::End();
-}
-
-void ModuleEditor::SetPropertiesWindow(const float3& position, const float& scale, const float3& rotation, const int& numTriangles, const int& numVertices) {
-    this->position = position;
-    this->scale = scale;
-    this->rotation = rotation;
-    this->numTriangles = numTriangles;
-    this->numVertices = numVertices;
-}
-
-void ModuleEditor::ShowPropertiesWindow() {
-    bool enabled;
-
-    std::string windowName = std::string("Properties");
-    ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(windowName.c_str(), &enabled, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::TextColored(titleColor, "TRANSFORMATION");
-        ImGui::Text("Position: x = %f; y = %f; z = %f", position.x, position.y, position.z);
-        ImGui::Text("Scale: %f", scale);
-        ImGui::Text("Rotation: x = %f; y = %f; z = %f", rotation.x, rotation.y, rotation.z);
-
-        ImGui::Separator();
-        ImGui::TextColored(titleColor, "GEOMETRY");
-        ImGui::Text("Num Triangles: %i", numTriangles);
-        ImGui::Text("Num Vertices: %i", numVertices);
-
-        ImGui::Separator();
-        ImGui::TextColored(titleColor, "TEXTURE");
-    
-    }
-    
-    ImGui::End();
 }

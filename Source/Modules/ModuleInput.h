@@ -16,7 +16,8 @@ public:
 	bool mouseLClicked = false;
 	bool mouseRClicked = false;
 	bool mouseMidClicked = false;
-	float camMoveSpeed;
-	float camRotSpeed = 0.1f;
+	float camMoveSpeed = 0.01f;
+	float camRotSpeed = 0.005f;
+	float zoomSpeed = 0.005f;
 
 };

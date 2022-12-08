@@ -19,7 +19,6 @@ public:
 	void Draw(const std::vector<unsigned>& model_textures, float3 position, float3 rotation, float scale);
 
 	GLuint ebo, vao, vbo, shaderProgram;
-	int num_indices, num_vertices;
+	int numIndices, numVertices, materialIndex, numFaces, textureWidth, textureHeight;
 	std::string vertexShaderSource, fragmentShaderSource;
-	int material_index;
 };
