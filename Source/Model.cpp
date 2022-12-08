@@ -47,6 +47,7 @@ void Model::LoadMaterials(aiMaterial** textures, int numMaterials, const char* f
 	{
 		if (textures[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
+			LOG_ENGINE("Loading texture %i...", (i + 1));
 			materials.push_back(App->textures->LoadTexture(file.data, fullTexturePath));
 		}
 	}
@@ -73,6 +74,7 @@ void Model::LoadMeshes(aiMesh** meshObjects, int numMeshes)
 	meshes.reserve(numMeshes);
 	for (int i = 0; i < numMeshes; ++i)
 	{
+		LOG_ENGINE("Loading mesh %i...", (i + 1));
 		Mesh* mesh = new Mesh();
 		mesh->numFaces = meshObjects[i]->mNumFaces;
 		mesh->LoadVBO(meshObjects[i]);

@@ -22,6 +22,7 @@ Mesh::~Mesh()
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {
+	LOG_ENGINE("Loading VBO...");
 	vertexShaderSource = App->program->ReadFile("Shaders/helloWorld_vertexShader.glsl");
 	fragmentShaderSource = App->program->ReadFile("Shaders/helloWorld_fragmentShader.glsl");
 	
@@ -49,6 +50,7 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 
 void Mesh::LoadEBO(const aiMesh* mesh)
 {
+	LOG_ENGINE("Loading EBO...");
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	unsigned index_size = sizeof(unsigned) * mesh->mNumFaces * 3;
@@ -67,6 +69,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 
 void Mesh::CreateVAO()
 {
+	LOG_ENGINE("Creating VAO...");
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
